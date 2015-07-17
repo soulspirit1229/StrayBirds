@@ -1,3 +1,10 @@
+---
+layout: post
+title: Reading Rails
+category: Reading Rails
+comments: true
+---
+
 # Reading Rails - ActiveSupport::MarshalWithAutoloading
 
 ## Marshal

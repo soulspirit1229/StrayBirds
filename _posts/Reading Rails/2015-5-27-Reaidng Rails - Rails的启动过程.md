@@ -1,3 +1,10 @@
+---
+layout: post
+title: Reading Rails
+category: Reading Rails
+comments: true
+---
+
 # Reaidng Rails - Rails的启动过程
 
 
@@ -24,7 +31,7 @@ gem 'railties', version
 load Gem.bin_path('railties', 'rails', version)
 ~~~
 
-先解释一下这这个文件中的内容，#开头的注释不多说： 
+先解释一下这这个文件中的内容，#开头的注释不多说：
 1、require‘rubygems’,这句话说明需要加载rubygems.rb文件，那么这个文件在什么地方呢？这边需要了解require加载文件时候的查找路径都有哪些，ruby中也有类似java classpath的一个东西叫做$LOAD_PATH，存储在$:中，require加载后面的文件就是从这个变量中的路径开始。打开命令行窗口，输入ruby –e “puts $:”或者 ruby –e ”puts $LOAD_PATH”可以查看你系统中的ruby的loadpath。
 
 ~~~rb
@@ -42,12 +49,12 @@ load Gem.bin_path('railties', 'rails', version)
 
 那么require ’rubygems’它就会去上面列出的几个路径中查找一个文件名为rubygems.rb，不难发现在/Users/shenghuan/.rbenv/versions/2.2.1/lib/ruby/2.2.0
 下面有这个文件。
- 
-2、version = "> 0"，这句话说明加载gem的默认版本 
 
-3、这一段if可以接收用户输入gem的版本，如果不输入，则默认加载最新的版本。 
+2、version = "> 0"，这句话说明加载gem的默认版本
 
-4、gem ‘railties’,version调用的rubygems.rb中的方法，方法定义如下，这个方法的作用是激活满足版本条件的rails 
+3、这一段if可以接收用户输入gem的版本，如果不输入，则默认加载最新的版本。
+
+4、gem ‘railties’,version调用的rubygems.rb中的方法，方法定义如下，这个方法的作用是激活满足版本条件的rails
 /Users/shenghuan/.rbenv/versions/2.2.1/lib/ruby/2.2.0/rubygems.rb
 
 5、到最后一句load ‘rails’了，这句话其实跟reqiure的功能一样。只不过是每次都重新加载rails文件，这个‘rails’文件也是从$LOAD_PATH中查找，在上一点说过Gem.activate(gem_name, *version_requirements)这个方法最后动态插入了gem_name相关的bin_path到$LOAD_PATH中，这个bin_path就包含了我们要找的’rails’。

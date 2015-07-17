@@ -1,3 +1,10 @@
+---
+layout: post
+title: Reading Rails
+category: Reading Rails
+comments: true
+---
+
 # Rails Lazily Load Hooks
 
 ActiveSupport中
@@ -55,7 +62,7 @@ load hook在Rails中的意思是当程序在启动的时候，有一些配置需
       "/Users/shenghuan/GitHub/rocket2/lib/yilian",
       "/Users/shenghuan/GitHub/rocket2/app/gateways",
       "/Users/shenghuan/GitHub/rocket2/lib/validators",
-      
+
 [12] pry(main)> ActiveSupport.instance_variable_get(:@load_hooks)
 => {:i18n=>
   [[#<Proc:0x007fdce8937980@/Users/shenghuan/.rbenv/versions/2.0.0-p598/lib/ruby/gems/2.0.0/gems/activemodel-4.1.8/lib/active_model.rb:69>,

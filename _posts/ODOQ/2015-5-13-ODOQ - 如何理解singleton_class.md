@@ -1,3 +1,11 @@
+---
+layout: post
+title: One Day One Question
+category: ODOQ
+comments: true
+---
+
+
 # ODOQ - 如何理解singleton_class
 
 我们先来看一段代码

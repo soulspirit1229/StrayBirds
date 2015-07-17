@@ -1,3 +1,10 @@
+---
+layout: post
+title: Reading Rails
+category: Reading Rails
+comments: true
+---
+
 # Reading Rails - ActiveSupport Module
 
 ## alias method chain
@@ -95,7 +102,7 @@ public target： 将target这个方法的权限改为public。
       attr_name, internal_name = "#{attr_name}=", "#{internal_name}=" if type == :writer
       alias_method attr_name, internal_name
       remove_method internal_name
-    end  
+    end
 ~~~
 
 首先attr_internal_ivar_name的作用是format，比如我们传人的attr_name是：goro，那么

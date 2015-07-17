@@ -1,3 +1,10 @@
+---
+layout: post
+title: Reading Rails
+category: Reading Rails
+comments: true
+---
+
 # Reading Rails - Railties
 
 Railtie 是 Rails 的核心部分之一。通过它，可以扩展和修改 Rails 的初始化程序。

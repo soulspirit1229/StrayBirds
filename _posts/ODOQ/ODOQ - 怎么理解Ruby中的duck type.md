@@ -1,1 +1,0 @@
-# ODOQ - 怎么理解Ruby中的duck type

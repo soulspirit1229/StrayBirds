@@ -1,3 +1,11 @@
+---
+layout: post
+title: One Day One Question
+category: ODOQ
+comments: true
+---
+
+
 # ODOQ - inside into module
 当我们掌握一个module时，我们可以获取到哪些信息，夸张一点说，接下来我们要思考怎么将一个module进行解剖。
 

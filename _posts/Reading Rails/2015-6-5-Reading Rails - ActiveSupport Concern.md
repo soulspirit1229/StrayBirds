@@ -1,3 +1,10 @@
+---
+layout: post
+title: Reading Rails
+category: Reading Rails
+comments: true
+---
+
 # Reading Rails - ActiveSupport Concern
 Rails concern可以使代码写的更简单，在它的comment中做了很好的解释。
 
@@ -15,7 +22,7 @@ module M
   end
 end
 
-is equal to 
+is equal to
 
 module M
   module ClassMethods
@@ -37,7 +44,7 @@ class Admin << ActiveRecord::Base
 	has_many :profile
 end
 
-is equal to 
+is equal to
 
 Admin.class_eval do
 	has_many :profile

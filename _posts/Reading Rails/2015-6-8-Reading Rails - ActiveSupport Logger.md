@@ -1,3 +1,10 @@
+---
+layout: post
+title: Reading Rails
+category: Reading Rails
+comments: true
+---
+
 # Reading Rails - ActiveSupport Logger
 
 在应用的开发，上线中，我们经常需要查看日志。
@@ -55,7 +62,7 @@ ActiveSupport::Logger还include LoggerSilence
 ~~~rb
 module LoggerSilence
   extend ActiveSupport::Concern
-  
+
   included do
     cattr_accessor :silencer
     self.silencer = true
@@ -152,7 +159,7 @@ Rails.logger.extend(ActiveSupport::Logger.broadcast(file_logger))
 ~~~
 
 当其他类比如Rails.logger extend this module，那么就增加了许多class method。
-此时我们使用Rails.logger.info "something"会转发到file_logger中. 
+此时我们使用Rails.logger.info "something"会转发到file_logger中.
 
 我们可以换种写法：
 

@@ -1,3 +1,10 @@
+---
+layout: post
+title: Reading Rails
+category: Reading Rails
+comments: true
+---
+
 # Reading Rails - File update checker
 
 ## File
@@ -89,7 +96,7 @@ watched返回的就是所有存在的files。
    def updated_at(paths)
       @updated_at || max_mtime(paths) || Time.at(0)
     end
-    
+
     def max_mtime(paths)
       time_now = Time.now
       paths.map {|path| File.mtime(path)}.reject {|mtime| time_now < mtime}.max

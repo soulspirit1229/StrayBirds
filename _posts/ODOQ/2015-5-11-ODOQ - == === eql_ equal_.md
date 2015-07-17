@@ -1,3 +1,10 @@
+---
+layout: post
+title: One Day One Question
+category: ODOQ
+comments: true
+---
+
 # ODOQ - == === eql? equal?
 ## ==
 如果是两个Object1 == Object2，只有这两个Object是同一个Object才会返回true。

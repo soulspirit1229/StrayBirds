@@ -1,3 +1,10 @@
+---
+layout: post
+title: Reading Rails
+category: Reading Rails
+comments: true
+---
+
 # Rails Autoload
 
 ActiveSupport 中使用了很多的autoload，它在Ruby自带的autoload上进行扩展。

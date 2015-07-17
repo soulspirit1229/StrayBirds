@@ -1,3 +1,10 @@
+---
+layout: post
+title: Reading Rails
+category: Reading Rails
+comments: true
+---
+
 # Rails Command
 
 当我们敲下rails g model ..的时候，系统开始调用app下面的rails文件
@@ -69,7 +76,7 @@ end
 
  其中hook_for就是调用方法,hook_for在base.rb中
 /Users/shenghuan/.rbenv/versions/2.2.1/lib/ruby/gems/2.2.0/gems/railties-4.1.8/lib/rails/generators/base.rb
-  
+
  ~~~rb
   def self.hook_for(*names, &block)
         options = names.extract_options!

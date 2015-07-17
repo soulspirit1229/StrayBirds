@@ -1,3 +1,11 @@
+---
+layout: post
+title: One Day One Question
+category: ODOQ
+comments: true
+---
+
+
 # ODOQ-rescue ensure的使用
 在我们写代码的时候，代码经常会抛出错误，这时没有及时的rescue或者处理错误，会出现我们不期望的结果
 

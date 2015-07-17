@@ -1,3 +1,10 @@
+---
+layout: post
+title: Reading Rails
+category: Reading Rails
+comments: true
+---
+
 # Reading Rails - ActiveSupport Callbacks
 
 ~~~rb
@@ -19,7 +26,7 @@
           set_callbacks name, CallbackChain.new(name, options)
         end
       end
-      
+
        def set_callbacks(name, callbacks)
         send "_#{name}_callbacks=", callbacks
       end

@@ -1,3 +1,11 @@
+---
+layout: post
+title: Tips
+category: Tips
+comments: true
+---
+
+
 # Tips-never use rescue exception
 在Ruby中，Exception是Ruby exception hierarchy的顶点。所以当你使用rescue exception的时候，你已经rescue了（全世界的）所有Exception, 包括SyntaxError,LoadError,Interrupt.
 
@@ -23,7 +31,7 @@ end
 
 ~~~rb
 begin
-  # 
+  #
 rescue => e
   #
 end
