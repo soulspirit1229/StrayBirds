@@ -116,7 +116,7 @@ disqus:
 #################################### global configure #######################################
 
 username: soulspirit1229
-baseurl: /StrayBirds
+baseurl: /blog
 markdown: redcarpet
 safe: false
 highlighter: pygments
