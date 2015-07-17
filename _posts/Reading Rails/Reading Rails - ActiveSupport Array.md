@@ -1,3 +1,11 @@
+---
+layout: post
+title: Reading Rails - ActiveSupport Array
+category: Reading Rails
+comments: true
+---
+
+
 # Reading Rails - ActiveSupport Array
 
 首先我们来看core_ext/array下面的文件
@@ -30,7 +38,7 @@ a.flatten!   #=> [1, 2, 3, 4, 5]
 {}.assert_valid_keys(:name,:years,:age) 为true
 接下来就是取I18n中对应的words_connector，然后进行拼装字符串.
 
-## to_formatted_s 
+## to_formatted_s
 
 2 to_formatted_s
   def to_formatted_s(format = :default)
