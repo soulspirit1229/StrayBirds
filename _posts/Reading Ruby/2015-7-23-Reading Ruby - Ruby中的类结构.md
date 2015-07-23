@@ -1,3 +1,11 @@
+---
+layout: post
+title: Reading Ruby
+category: Reading Ruby - Ruby中的类结构
+comments: true
+---
+
+
 # Ruby中的类结构
 
 我们首先来看Module的instance_methods
