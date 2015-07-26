@@ -6,7 +6,7 @@ comments: true
 ---
 
 # Reading Rails - ActiveSupport Concern
-Rails concern可以使代码写的更简单，在它的comment中做了很好的解释。
+Rails concern可以使代码写的更简单，在它的comment中做了很好的解释。比如我们可以使用include方法来添加class_methods.
 
 ### included
 

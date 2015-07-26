@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--
+         **
+         * Auther:      掌心
+         * Contact:     http://www.zhanxin.info
+         * Create:      2013.08.10
+         * Theme Name:  Kunka
+         * Authorize:   BY-NC-SA
+         **
+        -->
+        <meta charset="utf-8">
+        <title>Reading Rails - Active Model Validation - 逍遥游</title>
+        <!-- meta -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="generator" content="Jekyll" />
+        <meta name="author" content="soulspirit" />
+        <meta name="description" content="大知闲闲，小知间间；大言炎炎，小言詹詹。" />
+        <meta name="keywords" content="" />
+        <!-- atom -->
+        <link rel="alternate" type="application/atom+xml" title="Recent Entries" href="/blog/atom.xml" />
+        <link rel="shortcut icon" href="http://jekyllrb.com/favicon.png" type="image/x-icon" />
+        <!-- font-awesome -->
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Spirax' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/blog/themes/kunka/css/syntax.css">
+        <link rel="stylesheet" href="/blog/themes/kunka/css/main.css">
+        
+    </head>
+    <body>
+        <div class="head fn-clear">
+            <div class="header">
+                <h1 class="logo">
+                    <a href="/blog/"><i class="icon-anchor"></i></a>
+                </h1>
+                <nav class="nav">
+                    <ul>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/index.html">
+                                首页
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/categories.html">
+                                分类目录
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/archives.html">
+                                文章归档
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/contact.html">
+                                联系我
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/links.html">
+                                友情链接
+                            </a>
+                            
+                        </li>
+                        
+                    </ul>
+                </nav>
+                <div class="follow">
+                    
+                    <a href="/atom.xml" target="_blank"><i class="icon-rss"></i></a>
+                    
+                    <a href="http://weibo.com" target="_blank"><i class="icon-weibo"></i></a>
+                    
+                    <a href="http://renren.com" target="_blank"><i class="icon-renren"></i></a>
+                    
+                    <a href="http://github.com" target="_blank"><i class="icon-github-alt"></i></a>
+                    
+                    <a href="http://twitter.com" target="_blank"><i class="icon-twitter"></i></a>
+                    
+                    <a href="http://google.com" target="_blank"><i class="icon-google-plus"></i></a>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="contain fn-clear">
+            <div class="container fn-clear">
+                <div class="main">
+                    
+    <div class="article article-post">
+    <h2 class="title">Reading Rails - Active Model Validation</h2>
+    <div class="info">
+        <span class="info-title"><i class="icon-calendar"></i> Published: </span>
+        <span class="info-date">26 Jul 2015</span>
+        <span class="info-title"><i class="icon-folder-open"></i> Category: </span>
+        <span class="info-link"><a href="/StrayBirds/navigations/categories.html#Reading Rails-ref" >Reading Rails</a></span>
+    </div>
+    <h1>Reading Rails - Active Model Validation</h1>
+
+<p>validates<em>presence</em>of是从哪个类引入的。</p>
+
+<h2>include,extend同一个类</h2>
+
+<p>首先看一个比较有意思的用法，就是同时include，extend同一个类。</p>
+<div class="highlight"><pre><code class="language-rb" data-lang="rb">  <span class="kp">extend</span>  <span class="no">HelperMethods</span>
+  <span class="kp">include</span> <span class="no">HelperMethods</span>
+</code></pre></div>
+<p>而其实HelperMethods，是一个private method。
+也就是说当我们include ActiveModel::Valliation，我们的类里有private instance methods里含有<em>merge</em>attributes这个方法，同时又有private methods含有这个方法。</p>
+<div class="highlight"><pre><code class="language-rb" data-lang="rb"><span class="k">module</span> <span class="nn">ActiveModel</span>
+  <span class="k">module</span> <span class="nn">Validations</span>
+    <span class="k">module</span> <span class="nn">HelperMethods</span> <span class="c1"># :nodoc:</span>
+      <span class="kp">private</span>
+        <span class="k">def</span> <span class="nf">_merge_attributes</span><span class="p">(</span><span class="n">attr_names</span><span class="p">)</span>
+          <span class="n">options</span> <span class="o">=</span> <span class="n">attr_names</span><span class="o">.</span><span class="n">extract_options!</span><span class="o">.</span><span class="n">symbolize_keys</span>
+          <span class="n">attr_names</span><span class="o">.</span><span class="n">flatten!</span>
+          <span class="n">options</span><span class="o">[</span><span class="ss">:attributes</span><span class="o">]</span> <span class="o">=</span> <span class="n">attr_names</span>
+          <span class="n">options</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>当然不仅仅一个地方是HelperMethods,其实Validations下面的字文件夹中的每一个类都有一个HelperMethods的定义。</p>
+
+<p>我们看AbsenceValidator，它其中就具有validator的方法。</p>
+<div class="highlight"><pre><code class="language-rb" data-lang="rb"><span class="k">module</span> <span class="nn">HelperMethods</span>
+  <span class="k">def</span> <span class="nf">validates_absence_of</span><span class="p">(</span><span class="o">*</span><span class="n">attr_names</span><span class="p">)</span>
+    <span class="n">validates_with</span> <span class="no">AbsenceValidator</span><span class="p">,</span> <span class="n">_merge_attributes</span><span class="p">(</span><span class="n">attr_names</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>所以这些方法都会被包括进去。</p>
+
+<h2>require</h2>
+
+<p>在ActiveModel::Validations最下面有一行，引入文件。</p>
+<div class="highlight"><pre><code class="language-rb" data-lang="rb"><span class="no">Dir</span><span class="o">[</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/validations/*.rb&quot;</span><span class="o">].</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span> <span class="nb">require</span> <span class="n">file</span> <span class="p">}</span>
+</code></pre></div>
+<h2>validates_with</h2>
+
+<p>在with.rb中，定义了validates_with</p>
+
+<p>在上面的例子中，可以看到当我们在自己的model中使用validates<em>absence</em>of其实调用的是valiadates_with.</p>
+<div class="highlight"><pre><code class="language-rb" data-lang="rb">      <span class="k">def</span> <span class="nf">validates_with</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">extract_options!</span>
+        <span class="n">options</span><span class="o">[</span><span class="ss">:class</span><span class="o">]</span> <span class="o">=</span> <span class="nb">self</span>
+
+        <span class="n">args</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">klass</span><span class="o">|</span>
+          <span class="n">validator</span> <span class="o">=</span> <span class="n">klass</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+
+          <span class="k">if</span> <span class="n">validator</span><span class="o">.</span><span class="n">respond_to?</span><span class="p">(</span><span class="ss">:attributes</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">validator</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">empty?</span>
+            <span class="n">validator</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">attribute</span><span class="o">|</span>
+              <span class="n">_validators</span><span class="o">[</span><span class="n">attribute</span><span class="o">.</span><span class="n">to_sym</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="n">validator</span>
+            <span class="k">end</span>
+          <span class="k">else</span>
+            <span class="n">_validators</span><span class="o">[</span><span class="kp">nil</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="n">validator</span>
+          <span class="k">end</span>
+
+          <span class="n">validate</span><span class="p">(</span><span class="n">validator</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+</code></pre></div>
+<p>我们看到validates_with会给每个attributes创建validator。
+最后调用validate方法。validate方法在validations.rb中</p>
+<div class="highlight"><pre><code class="language-rb" data-lang="rb">      <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">extract_options!</span>
+
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">all?</span> <span class="p">{</span> <span class="o">|</span><span class="n">arg</span><span class="o">|</span> <span class="n">arg</span><span class="o">.</span><span class="n">is_a?</span><span class="p">(</span><span class="no">Symbol</span><span class="p">)</span> <span class="p">}</span>
+          <span class="n">options</span><span class="o">.</span><span class="n">each_key</span> <span class="k">do</span> <span class="o">|</span><span class="n">k</span><span class="o">|</span>
+            <span class="k">unless</span> <span class="no">VALID_OPTIONS_FOR_VALIDATE</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+              <span class="k">raise</span> <span class="no">ArgumentError</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Unknown key: </span><span class="si">#{</span><span class="n">k</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">. Valid keys are: </span><span class="si">#{</span><span class="no">VALID_OPTIONS_FOR_VALIDATE</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:inspect</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">. Perhaps you meant to call `validates` instead of `validate`?&quot;</span><span class="p">)</span>
+            <span class="k">end</span>
+          <span class="k">end</span>
+        <span class="k">end</span>
+
+        <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">key?</span><span class="p">(</span><span class="ss">:on</span><span class="p">)</span>
+          <span class="n">options</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">dup</span>
+          <span class="n">options</span><span class="o">[</span><span class="ss">:if</span><span class="o">]</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">(</span><span class="n">options</span><span class="o">[</span><span class="ss">:if</span><span class="o">]</span><span class="p">)</span>
+          <span class="n">options</span><span class="o">[</span><span class="ss">:if</span><span class="o">].</span><span class="n">unshift</span> <span class="o">-&gt;</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nb">Array</span><span class="p">(</span><span class="n">options</span><span class="o">[</span><span class="ss">:on</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">validation_context</span><span class="p">)</span>
+          <span class="p">}</span>
+        <span class="k">end</span>
+
+        <span class="n">args</span> <span class="o">&lt;&lt;</span> <span class="n">options</span>
+        <span class="n">set_callback</span><span class="p">(</span><span class="ss">:validate</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+      <span class="k">end</span>
+</code></pre></div>
+<p>主要调用的还是ActiveSupport中的set_callback方法。</p>
+
+    <nav class="article-previous fn-clear">
+        
+        <a class="prev" href="/blog//2015/07/24/ODOQ%20-%20%E7%90%86%E8%A7%A3map%E4%B8%AD%E7%9A%84&.html" rel="bookmark">&laquo;&nbsp;Odoq   理解map中的&</a>
+        
+        
+        <a class="next" href="/blog//reading%20rails/2015/07/26/Reading%20Rails%20-%20ActiveModel%20Callbacks.html" rel="bookmark">Reading Rails - Active Model...&nbsp;&raquo;</a>
+        
+    </nav>
+    <div class="comment">
+        
+            
+        
+    </div>
+</div>
+
+
+                    
+                        <div id="disqus_thread"></div>
+ <script type="text/javascript">
+     /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+     var disqus_shortname = 'minixalpha'; // required: replace example with your forum shortname
+
+     /* * * DON'T EDIT BELOW THIS LINE * * */
+     (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+ </script>
+ <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+                    
+                </div>
+                <div class="aside">
+                    <div class="aside-contact">
+                        <h4 class="title">About me</h4>
+                        <div class="det fn-clear">
+                            <div class="det-image">
+                                <img src="https://avatars.githubusercontent.com/soulspirit1229" />
+                            </div>
+                            <div class="det-text">
+                                <p>我是 SoulSpirit</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="aside-item">
+                        <h4 class="title">Recent Posts</h4>
+                        <ul class="list">
+                            
+                                <li><a href="/blog/reading%20ruby/2015/07/26/Reading%20Ruby%20-%20Class%20Methods.html" title="Reading Ruby - Class Methods" rel="bookmark">Reading Ruby - Class Methods</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20Validation.html" title="Reading Rails - Rails Validation" rel="bookmark">Reading Rails - Rails Validation</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20ActiveSupport%20delegation.html" title="Reading Rails - ActiveSupport delegation" rel="bookmark">Reading Rails - ActiveSupport delegation</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20ActiveRecord.html" title="Reading Rails - Active Record" rel="bookmark">Reading Rails - Active Record</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20ActiveModel%20Callbacks.html" title="Reading Rails - Active Model Callbacks" rel="bookmark">Reading Rails - Active Model Callbacks</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20Active%20Model%20Validation.html" title="Reading Rails - Active Model Validation" rel="bookmark">Reading Rails - Active Model Validation</a></li>
+                            
+                        </ul>
+                    </div>
+
+                    <div class="aside-item">
+                        <h4 class="title">Links</h4>
+                        <ul class="list">
+                            
+                                
+                                    
+                                    <li><a href="http://www.zhanxin.info" title="掌心" target="_blank">掌心</a></li>
+                                    
+                                    <li><a href="http://jekyllrb.com" title="Jekyll" target="_blank">Jekyll</a></li>
+                                    
+                                    <li><a href="http://www.zhanxin.info/themes.html" title="Jekyll Theme" target="_blank">Jekyll Theme</a></li>
+                                    
+                                
+                            
+                                
+                            
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="foot">
+            <div class="footer">
+                <p>Copyright 2013. All rights reserved. Powered by <a href="http://jekyllrb.com" target="_blank">Jekyll</a>, Design by <a href="http://www.zhanxin.info" target="_blank">zhanxin.info</a>.</p>
+            </div>
+        </div>
+        <script type="text/javascript" src="https://lib.sinaapp.com/js/jquery/1.8.3/jquery.min.js"></script>
+        
+    </body>
+</html>

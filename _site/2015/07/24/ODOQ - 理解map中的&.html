@@ -1,0 +1,28 @@
+<h1>ODOQ - 理解map中的&amp;</h1>
+
+<p>我们先来看道面试题</p>
+<div class="highlight"><pre><code class="language-rb" data-lang="rb"><span class="k">class</span> <span class="nc">Class</span>
+  <span class="k">def</span> <span class="nf">to_proc</span>
+    <span class="nb">proc</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">|</span> <span class="kp">new</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+ <span class="o">[[</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="o">]].</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="nb">Array</span><span class="p">)</span>
+</code></pre></div>
+<p>要做这道题，我们首先得理解map中的&amp;到底什么意思。首先要理解的是：当ruby看到&amp;符号的时候，首先会做的事是把他当成proc。如果不能直接转换，就会调用to_proc方法。</p>
+
+<p>一般的symbol在转换成proc的时候，它可以转换成功.是因为Symbol已经实现了to_proc的方法。</p>
+
+<p>那么这里执行[[1, &quot;a&quot;], [2, &quot;b&quot;], [3, &quot;c&quot;]].map(&amp;Array)
+就相当于分别执行</p>
+
+<p>Array.to<em>proc.call([1,&quot;a&quot;])
+Array.to</em>proc.call([2,&quot;b&quot;])
+Array.to_proc.call([3,&quot;c&quot;])</p>
+
+<p>因为在Class上写了to<em>proc的方法。所以Array就有了to</em>proc方法。</p>
+
+<p>而内部执行的就相当于Array.new(1,&quot;a&quot;).
+所以这道题目的答案是：</p>
+
+<p>[[&quot;a&quot;], [&quot;b&quot;, &quot;b&quot;], [&quot;c&quot;, &quot;c&quot;, &quot;c&quot;]]</p>

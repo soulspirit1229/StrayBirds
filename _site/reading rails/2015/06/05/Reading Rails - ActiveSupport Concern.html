@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--
+         **
+         * Auther:      掌心
+         * Contact:     http://www.zhanxin.info
+         * Create:      2013.08.10
+         * Theme Name:  Kunka
+         * Authorize:   BY-NC-SA
+         **
+        -->
+        <meta charset="utf-8">
+        <title>Reading Rails - 逍遥游</title>
+        <!-- meta -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="generator" content="Jekyll" />
+        <meta name="author" content="soulspirit" />
+        <meta name="description" content="大知闲闲，小知间间；大言炎炎，小言詹詹。" />
+        <meta name="keywords" content="" />
+        <!-- atom -->
+        <link rel="alternate" type="application/atom+xml" title="Recent Entries" href="/blog/atom.xml" />
+        <link rel="shortcut icon" href="http://jekyllrb.com/favicon.png" type="image/x-icon" />
+        <!-- font-awesome -->
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Spirax' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/blog/themes/kunka/css/syntax.css">
+        <link rel="stylesheet" href="/blog/themes/kunka/css/main.css">
+        
+    </head>
+    <body>
+        <div class="head fn-clear">
+            <div class="header">
+                <h1 class="logo">
+                    <a href="/blog/"><i class="icon-anchor"></i></a>
+                </h1>
+                <nav class="nav">
+                    <ul>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/index.html">
+                                首页
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/categories.html">
+                                分类目录
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/archives.html">
+                                文章归档
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/contact.html">
+                                联系我
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/links.html">
+                                友情链接
+                            </a>
+                            
+                        </li>
+                        
+                    </ul>
+                </nav>
+                <div class="follow">
+                    
+                    <a href="/atom.xml" target="_blank"><i class="icon-rss"></i></a>
+                    
+                    <a href="http://weibo.com" target="_blank"><i class="icon-weibo"></i></a>
+                    
+                    <a href="http://renren.com" target="_blank"><i class="icon-renren"></i></a>
+                    
+                    <a href="http://github.com" target="_blank"><i class="icon-github-alt"></i></a>
+                    
+                    <a href="http://twitter.com" target="_blank"><i class="icon-twitter"></i></a>
+                    
+                    <a href="http://google.com" target="_blank"><i class="icon-google-plus"></i></a>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="contain fn-clear">
+            <div class="container fn-clear">
+                <div class="main">
+                    
+    <div class="article article-post">
+    <h2 class="title">Reading Rails</h2>
+    <div class="info">
+        <span class="info-title"><i class="icon-calendar"></i> Published: </span>
+        <span class="info-date">05 Jun 2015</span>
+        <span class="info-title"><i class="icon-folder-open"></i> Category: </span>
+        <span class="info-link"><a href="/StrayBirds/navigations/categories.html#Reading Rails-ref" >Reading Rails</a></span>
+    </div>
+    <h1>Reading Rails - ActiveSupport Concern</h1>
+
+<p>Rails concern可以使代码写的更简单，在它的comment中做了很好的解释。比如我们可以使用include方法来添加class_methods.</p>
+
+<h3>included</h3>
+
+<p>要了解included的功能，我们先要了解ClassMethods, self.included, class_eval等语法。
+我们写class methods和 instance methods，可以有不同的写法。</p>
+<div class="highlight"><pre><code class="language-rb" data-lang="rb"><span class="k">module</span> <span class="nn">M</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">x</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">y</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">is</span> <span class="n">equal</span> <span class="n">to</span>
+
+<span class="k">module</span> <span class="nn">M</span>
+  <span class="k">module</span> <span class="nn">ClassMethods</span>
+    <span class="k">def</span> <span class="nf">x</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  <span class="k">module</span> <span class="nn">InstanceMethods</span>
+    <span class="k">def</span> <span class="nf">y</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>为什么要有这么多的写法呢？是不是有些场合使用self.xx，有些场合使用ClassMethods更合理些？</p>
+
+<p>我们清楚了ClassMethods的用法，接下来我们看class_eval的方法</p>
+<div class="highlight"><pre><code class="language-rb" data-lang="rb"><span class="k">class</span> <span class="nc">Admin</span> <span class="o">&lt;&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+    <span class="n">has_many</span> <span class="ss">:profile</span>
+<span class="k">end</span>
+
+<span class="n">is</span> <span class="n">equal</span> <span class="n">to</span>
+
+<span class="no">Admin</span><span class="o">.</span><span class="n">class_eval</span> <span class="k">do</span>
+    <span class="n">has_many</span> <span class="ss">:profile</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>理解了上面的，我们再看一段代码</p>
+<div class="highlight"><pre><code class="language-rb" data-lang="rb"><span class="k">module</span> <span class="nn">M</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+    <span class="n">base</span><span class="o">.</span><span class="n">extend</span> <span class="no">ClassMethods</span>
+    <span class="n">base</span><span class="o">.</span><span class="n">class_eval</span> <span class="k">do</span>
+      <span class="nb">p</span> <span class="s2">&quot;something happened&quot;</span>
+      <span class="k">def</span> <span class="nf">do_something_in_included</span>
+        <span class="nb">p</span> <span class="s2">&quot;do something in included&quot;</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">module</span> <span class="nn">ClassMethods</span>
+    <span class="k">def</span> <span class="nf">do_something_in_M</span>
+      <span class="nb">p</span> <span class="s2">&quot;do something in M&quot;</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">N</span>
+  <span class="kp">include</span> <span class="n">M</span>
+
+<span class="k">end</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="n">N</span><span class="o">.</span><span class="n">new</span>
+<span class="n">n</span><span class="o">.</span><span class="n">do_something_in_included</span>
+<span class="n">N</span><span class="o">.</span><span class="n">do_something_in_M</span>
+</code></pre></div>
+<p>在module M中，我们定义了included方法，以及ClassMethods。class_eval就是往里面增加instance methods。 而
+base.extend ClassMethods是增加了Class Methods。所以通过引入include M, N增加了两个方法，一个实例方法，一个类方法。</p>
+
+<p>更近一步，我们可以将上面的M进行简化</p>
+<div class="highlight"><pre><code class="language-rb" data-lang="rb"><span class="k">module</span> <span class="nn">M</span>
+  <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
+
+  <span class="n">included</span> <span class="k">do</span>
+    <span class="nb">p</span> <span class="s2">&quot;something happened&quot;</span>
+
+    <span class="k">def</span> <span class="nf">do_something_in_included</span>
+      <span class="nb">p</span> <span class="s2">&quot;do something in included&quot;</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">module</span> <span class="nn">ClassMethods</span>
+    <span class="k">def</span> <span class="nf">do_something_in_M</span>
+      <span class="nb">p</span> <span class="s2">&quot;do something in M&quot;</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>这个M extend Concern，实现的功能跟上面一样。</p>
+
+<p>Ok，了解了concern的作用，接下来开始看源代码：</p>
+<div class="highlight"><pre><code class="language-rb" data-lang="rb">  <span class="k">def</span> <span class="nf">included</span><span class="p">(</span><span class="n">base</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">base</span><span class="o">.</span><span class="n">nil?</span>
+        <span class="k">raise</span> <span class="no">MultipleIncludedBlocks</span> <span class="k">if</span> <span class="n">instance_variable_defined?</span><span class="p">(</span><span class="ss">:@_included_block</span><span class="p">)</span>
+
+        <span class="vi">@_included_block</span> <span class="o">=</span> <span class="n">block</span>
+      <span class="k">else</span>
+        <span class="k">super</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+</code></pre></div>
+<h3>append_features</h3>
+
+<p>Ruby的Module class有append_features这个方法， 当这个module被其他的类include的时候，Ruby会调用append_features。 Ruby本身的实现方式是把被included的constants,methods,以及module variables传入到include module.</p>
+
+<p>rails中的concern重新定义了这个方法。</p>
+<div class="highlight"><pre><code class="language-rb" data-lang="rb">    <span class="k">def</span> <span class="nf">append_features</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">base</span><span class="o">.</span><span class="n">instance_variable_defined?</span><span class="p">(</span><span class="ss">:@_dependencies</span><span class="p">)</span>
+        <span class="n">base</span><span class="o">.</span><span class="n">instance_variable_get</span><span class="p">(</span><span class="ss">:@_dependencies</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="nb">self</span>
+        <span class="k">return</span> <span class="kp">false</span>
+      <span class="k">else</span>
+        <span class="k">return</span> <span class="kp">false</span> <span class="k">if</span> <span class="n">base</span> <span class="o">&lt;</span> <span class="nb">self</span>
+        <span class="vi">@_dependencies</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">dep</span><span class="o">|</span> <span class="n">base</span><span class="o">.</span><span class="n">include</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span> <span class="p">}</span>
+        <span class="k">super</span>
+        <span class="n">base</span><span class="o">.</span><span class="n">extend</span> <span class="nb">const_get</span><span class="p">(</span><span class="ss">:ClassMethods</span><span class="p">)</span> <span class="k">if</span> <span class="nb">const_defined?</span><span class="p">(</span><span class="ss">:ClassMethods</span><span class="p">)</span>
+        <span class="n">base</span><span class="o">.</span><span class="n">class_eval</span><span class="p">(</span><span class="o">&amp;</span><span class="vi">@_included_block</span><span class="p">)</span> <span class="k">if</span> <span class="n">instance_variable_defined?</span><span class="p">(</span><span class="ss">:@_included_block</span><span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+</code></pre></div>
+<p>我们用个例子来说明</p>
+<div class="highlight"><pre><code class="language-rb" data-lang="rb"><span class="k">module</span> <span class="nn">M</span>
+  <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
+
+  <span class="n">included</span> <span class="k">do</span>
+    <span class="nb">p</span> <span class="s2">&quot;something happened&quot;</span>
+
+    <span class="k">def</span> <span class="nf">do_something_in_included</span>
+      <span class="nb">p</span> <span class="s2">&quot;do something in included&quot;</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">module</span> <span class="nn">ClassMethods</span>
+    <span class="k">def</span> <span class="nf">do_something_in_M</span>
+      <span class="nb">p</span> <span class="s2">&quot;do something in M&quot;</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">module</span> <span class="nn">MM</span>
+  <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
+  <span class="kp">include</span> <span class="n">M</span>
+
+  <span class="n">included</span> <span class="k">do</span>
+    <span class="k">def</span> <span class="nf">do_method_in_mm</span>
+      <span class="nb">p</span> <span class="s2">&quot;method in mm&quot;</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">MMM</span>
+  <span class="kp">include</span> <span class="no">MM</span>
+
+<span class="k">end</span>
+
+<span class="n">mmm</span> <span class="o">=</span> <span class="no">MMM</span><span class="o">.</span><span class="n">new</span>
+
+<span class="o">[</span><span class="mi">7</span><span class="o">]</span> <span class="n">pry</span><span class="p">(</span><span class="n">main</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">mmm</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span> <span class="sr">/do/</span>
+<span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:do_something_in_included</span><span class="p">,</span> <span class="ss">:do_method_in_mm</span><span class="o">]</span>
+<span class="o">[</span><span class="mi">8</span><span class="o">]</span> <span class="n">pry</span><span class="p">(</span><span class="n">main</span><span class="p">)</span><span class="o">&gt;</span> <span class="no">MMM</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">grep</span> <span class="sr">/do/</span>
+<span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:do_something_in_M</span><span class="o">]</span>
+<span class="o">[</span><span class="mi">9</span><span class="o">]</span> <span class="n">pry</span><span class="p">(</span><span class="n">main</span><span class="p">)</span><span class="o">&gt;</span> <span class="no">MMM</span><span class="o">.</span><span class="n">instance_variables</span>
+<span class="o">=&gt;</span> <span class="o">[]</span>
+<span class="o">[</span><span class="mi">10</span><span class="o">]</span> <span class="n">pry</span><span class="p">(</span><span class="n">main</span><span class="p">)</span><span class="o">&gt;</span> <span class="no">MM</span><span class="o">.</span><span class="n">instance_variables</span>
+<span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:@_dependencies</span><span class="p">,</span> <span class="ss">:@_included_block</span><span class="o">]</span>
+<span class="o">[</span><span class="mi">11</span><span class="o">]</span> <span class="n">pry</span><span class="p">(</span><span class="n">main</span><span class="p">)</span><span class="o">&gt;</span> <span class="no">MM</span><span class="o">.</span><span class="n">instance_variable_get</span><span class="p">(</span><span class="ss">:@_dependencies</span><span class="p">)</span>
+<span class="o">=&gt;</span> <span class="o">[</span><span class="n">M</span><span class="o">]</span>
+<span class="o">[</span><span class="mi">12</span><span class="o">]</span> <span class="n">pry</span><span class="p">(</span><span class="n">main</span><span class="p">)</span><span class="o">&gt;</span> <span class="no">MM</span><span class="o">.</span><span class="n">instance_variable_get</span><span class="p">(</span><span class="ss">:@_included_block</span><span class="p">)</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;Proc:0x007fdcea3dcb50@(pry):22&gt;</span>
+<span class="o">[</span><span class="mi">13</span><span class="o">]</span> <span class="n">pry</span><span class="p">(</span><span class="n">main</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">M</span><span class="o">.</span><span class="n">instance_values</span>
+<span class="o">=&gt;</span> <span class="p">{</span><span class="s2">&quot;_dependencies&quot;</span><span class="o">=&gt;[]</span><span class="p">,</span> <span class="s2">&quot;_included_block&quot;</span><span class="o">=&gt;</span><span class="c1">#&lt;Proc:0x007fdcf0f3d408@(pry):4&gt;}</span>
+</code></pre></div>
+<p>我们可以看到在MM include M的时候，会执行append<em>features,此时 base.instance</em>variable<em>defined?(:@</em>dependencies)为true， 所以不会执行默认的ruby的append_features.</p>
+
+<p>当MMM include MM的时候， 此时 base.instance<em>variable</em>defined?(:@_dependencies) 为false，此时执行的就是else中的语句。</p>
+
+<p>@<em>dependencies.each { |dep| base.include(dep) }此时会将M included到 MMM中，然后调用super,来调用Ruby默认的行为。同时extend ClassMethods and includes InstanceMethods.最后执行class</em>eval，在这里，执行的就是 MM.instance<em>variable</em>get(:@<em>included</em>block) 这个proc。至此，所有的东西都放入到了MMM中</p>
+
+<h3>class_methods</h3>
+
+<p>最新的 Rails中还增加了class_methods</p>
+<div class="highlight"><pre><code class="language-rb" data-lang="rb">    <span class="k">def</span> <span class="nf">class_methods</span><span class="p">(</span><span class="o">&amp;</span><span class="n">class_methods_module_definition</span><span class="p">)</span>
+      <span class="n">mod</span> <span class="o">=</span> <span class="nb">const_defined?</span><span class="p">(</span><span class="ss">:ClassMethods</span><span class="p">)</span> <span class="p">?</span>
+        <span class="nb">const_get</span><span class="p">(</span><span class="ss">:ClassMethods</span><span class="p">)</span> <span class="p">:</span>
+        <span class="nb">const_set</span><span class="p">(</span><span class="ss">:ClassMethods</span><span class="p">,</span> <span class="no">Module</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+
+      <span class="n">mod</span><span class="o">.</span><span class="n">module_eval</span><span class="p">(</span><span class="o">&amp;</span><span class="n">class_methods_module_definition</span><span class="p">)</span>
+    <span class="k">end</span>
+</code></pre></div>
+    <nav class="article-previous fn-clear">
+        
+        <a class="prev" href="/blog//reading%20rails/2015/06/04/Reading%20Rails%20-%20ActiveSupport%20class.html" rel="bookmark">&laquo;&nbsp;Reading Rails</a>
+        
+        
+        <a class="next" href="/blog//reading%20rails/2015/06/06/Reading%20Rails%20-%20ActiveSupport%20File%20update%20checker.html" rel="bookmark">Reading Rails&nbsp;&raquo;</a>
+        
+    </nav>
+    <div class="comment">
+        
+            
+        
+    </div>
+</div>
+
+
+                    
+                        <div id="disqus_thread"></div>
+ <script type="text/javascript">
+     /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+     var disqus_shortname = 'minixalpha'; // required: replace example with your forum shortname
+
+     /* * * DON'T EDIT BELOW THIS LINE * * */
+     (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+ </script>
+ <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+                    
+                </div>
+                <div class="aside">
+                    <div class="aside-contact">
+                        <h4 class="title">About me</h4>
+                        <div class="det fn-clear">
+                            <div class="det-image">
+                                <img src="https://avatars.githubusercontent.com/soulspirit1229" />
+                            </div>
+                            <div class="det-text">
+                                <p>我是 SoulSpirit</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="aside-item">
+                        <h4 class="title">Recent Posts</h4>
+                        <ul class="list">
+                            
+                                <li><a href="/blog/reading%20ruby/2015/07/26/Reading%20Ruby%20-%20Class%20Methods.html" title="Reading Ruby - Class Methods" rel="bookmark">Reading Ruby - Class Methods</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20Validation.html" title="Reading Rails - Rails Validation" rel="bookmark">Reading Rails - Rails Validation</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20ActiveSupport%20delegation.html" title="Reading Rails - ActiveSupport delegation" rel="bookmark">Reading Rails - ActiveSupport delegation</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20ActiveRecord.html" title="Reading Rails - Active Record" rel="bookmark">Reading Rails - Active Record</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20ActiveModel%20Callbacks.html" title="Reading Rails - Active Model Callbacks" rel="bookmark">Reading Rails - Active Model Callbacks</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20Active%20Model%20Validation.html" title="Reading Rails - Active Model Validation" rel="bookmark">Reading Rails - Active Model Validation</a></li>
+                            
+                        </ul>
+                    </div>
+
+                    <div class="aside-item">
+                        <h4 class="title">Links</h4>
+                        <ul class="list">
+                            
+                                
+                                    
+                                    <li><a href="http://www.zhanxin.info" title="掌心" target="_blank">掌心</a></li>
+                                    
+                                    <li><a href="http://jekyllrb.com" title="Jekyll" target="_blank">Jekyll</a></li>
+                                    
+                                    <li><a href="http://www.zhanxin.info/themes.html" title="Jekyll Theme" target="_blank">Jekyll Theme</a></li>
+                                    
+                                
+                            
+                                
+                            
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="foot">
+            <div class="footer">
+                <p>Copyright 2013. All rights reserved. Powered by <a href="http://jekyllrb.com" target="_blank">Jekyll</a>, Design by <a href="http://www.zhanxin.info" target="_blank">zhanxin.info</a>.</p>
+            </div>
+        </div>
+        <script type="text/javascript" src="https://lib.sinaapp.com/js/jquery/1.8.3/jquery.min.js"></script>
+        
+    </body>
+</html>

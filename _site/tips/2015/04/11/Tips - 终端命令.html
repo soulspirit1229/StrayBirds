@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--
+         **
+         * Auther:      掌心
+         * Contact:     http://www.zhanxin.info
+         * Create:      2013.08.10
+         * Theme Name:  Kunka
+         * Authorize:   BY-NC-SA
+         **
+        -->
+        <meta charset="utf-8">
+        <title>Tips - 逍遥游</title>
+        <!-- meta -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="generator" content="Jekyll" />
+        <meta name="author" content="soulspirit" />
+        <meta name="description" content="大知闲闲，小知间间；大言炎炎，小言詹詹。" />
+        <meta name="keywords" content="" />
+        <!-- atom -->
+        <link rel="alternate" type="application/atom+xml" title="Recent Entries" href="/blog/atom.xml" />
+        <link rel="shortcut icon" href="http://jekyllrb.com/favicon.png" type="image/x-icon" />
+        <!-- font-awesome -->
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Spirax' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/blog/themes/kunka/css/syntax.css">
+        <link rel="stylesheet" href="/blog/themes/kunka/css/main.css">
+        
+    </head>
+    <body>
+        <div class="head fn-clear">
+            <div class="header">
+                <h1 class="logo">
+                    <a href="/blog/"><i class="icon-anchor"></i></a>
+                </h1>
+                <nav class="nav">
+                    <ul>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/index.html">
+                                首页
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/categories.html">
+                                分类目录
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/archives.html">
+                                文章归档
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/contact.html">
+                                联系我
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/links.html">
+                                友情链接
+                            </a>
+                            
+                        </li>
+                        
+                    </ul>
+                </nav>
+                <div class="follow">
+                    
+                    <a href="/atom.xml" target="_blank"><i class="icon-rss"></i></a>
+                    
+                    <a href="http://weibo.com" target="_blank"><i class="icon-weibo"></i></a>
+                    
+                    <a href="http://renren.com" target="_blank"><i class="icon-renren"></i></a>
+                    
+                    <a href="http://github.com" target="_blank"><i class="icon-github-alt"></i></a>
+                    
+                    <a href="http://twitter.com" target="_blank"><i class="icon-twitter"></i></a>
+                    
+                    <a href="http://google.com" target="_blank"><i class="icon-google-plus"></i></a>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="contain fn-clear">
+            <div class="container fn-clear">
+                <div class="main">
+                    
+    <div class="article article-post">
+    <h2 class="title">Tips</h2>
+    <div class="info">
+        <span class="info-title"><i class="icon-calendar"></i> Published: </span>
+        <span class="info-date">11 Apr 2015</span>
+        <span class="info-title"><i class="icon-folder-open"></i> Category: </span>
+        <span class="info-link"><a href="/StrayBirds/navigations/categories.html#Tips-ref" >Tips</a></span>
+    </div>
+    <h1>Tips - 终端命令</h1>
+
+<p>以下是上周末翻译的一片文章。</p>
+
+<p>用命令行的人有福了，因为终端是他们的；</p>
+
+<p>用命令的人有福了，因为他们必脱离鼠标。</p>
+
+<p>以下是终端中常用的几个命令行，顺手整理了一下，美其名曰「提高生产力的十个终端命令」，希望对同学们有用。</p>
+
+<h2>Man</h2>
+
+<p>对某条命令不熟怎么办？</p>
+
+<p>忘记参数怎么办？</p>
+
+<p>使用 man 可以非常方便查看每条命令的文档。</p>
+
+<p>$ man touch</p>
+
+<h2>Touch</h2>
+
+<p>touch 本用于修改文件的 access 和 modification 时间，但程序猿们都喜欢用 touch 命令去创建一个空的文件。</p>
+
+<p>$ touch shared/production.log
+$ touch one.txt two.txt three.txt</p>
+
+<p>Touch</p>
+
+<p>假如你想创建并编辑一个新文件，别用 touch，建议使用其他命令:</p>
+
+<p>textmate
+$ mate index.html</p>
+
+<p>vim
+$ mvim index.html</p>
+
+<p>sublime text
+$ subl index.html</p>
+
+<h2>Cat &amp;&amp; Less</h2>
+
+<p>cat 和 less 都可在终端直接输出文件内容。我特别喜欢用来查看密钥，阅读只有十几行的小文本文件。</p>
+
+<p>$ cat shop_list.rb
+$ cat readme.md</p>
+
+<p>cat</p>
+
+<p>但 cat 会输出文件<strong>所有的内容</strong>，假如你要查看的是服务器的日志，成百上万条记录瞬间刷爆你的屏幕，你就死定了！</p>
+
+<p>此时建议你用 less 命令</p>
+
+<p>$ less production.log</p>
+
+<p>他只会给你返回一屏的信息，你可以通过 jkbf 等快捷键来查阅该文件。</p>
+
+<h2>Tail</h2>
+
+<p>动态显示某个文件的最后几行，用来看日志是最合适不过的了。</p>
+
+<p>$ tail production.log</p>
+
+<h2>Curl</h2>
+
+<p>curl 最常见的应用场景有这么几个：</p>
+
+<p>查看网页源码</p>
+
+<p>curl www.sina.com</p>
+
+<p>加上 -o 参数可以下载文件</p>
+
+<p>curl -o [文件名] www.sina.com
+显示 HTTP response 的 head 信息
+提交表单数据。
+....
+curl 的用途太多，我就不一一赘述了， 它是 web 程序员必备命令，</p>
+
+<p>阮一峰在《curl 网站开发指南》中对该命令有更详尽的介绍，大家可以自行翻阅。</p>
+
+<h2>Gzip &amp; Gunzip</h2>
+
+<p>在 Windows 中，压缩和打包归一个软件负责，不要用这种思维方式来理解 Linux 的压缩程序。</p>
+
+<p>gzip 仅仅用于压缩文件，它才不管打包呢。Unix 的哲学是 Do one thing well。</p>
+
+<h3>压缩文本文件 =&gt; hello.txt.gz</h3>
+
+<p>$ gzip hello.txt</p>
+
+<h3>压缩 tar 包 =&gt; hello.tar.gz</h3>
+
+<p>$ gzip hello.tar.gz</p>
+
+<h3>解压缩 =&gt; hello.txt</h3>
+
+<p>$ gunzip hello.txt.gz</p>
+
+<h3>解压缩 =&gt; hello.tar</h3>
+
+<p>$ gunzip hello.tar.gz</p>
+
+<h2>Tar</h2>
+
+<p>Tar 命令用于打包/解包</p>
+
+<p>想把 one.txt，two.txt 打包为一个文件？</p>
+
+<h3>-c : create, 打包（与之相对的是 -x，解包）</h3>
+
+<h4>-f : 打包后的文件名</h4>
+
+<p>$ tar cf archive.tar one.txt two.txt</p>
+
+<p>想打包一个文件夹？</p>
+
+<h3>-c : create, 打包</h3>
+
+<h3>-z : 打包后顺便用 gzip 压缩</h3>
+
+<h3>-p : 保存相应的权限信息</h3>
+
+<h3>-v : 把文件按打包顺序一一列出来</h3>
+
+<h3>-f : 打包后的文件名</h3>
+
+<p>$ tar czpvf archive.tar.gz document</p>
+
+<p>gzip 命令和 tar 是截然不同的。</p>
+
+<p>what&#39;s the difference between tar and gzip</p>
+
+<h2>History</h2>
+
+<p>可以通过 history 拉出来所有敲过的命令的历史记录。</p>
+
+<p>$ history</p>
+
+<p>History</p>
+
+<h2>Chmod</h2>
+
+<p>chmod (change mode)用于修改文件的权限。</p>
+
+<p>$ chmod 644 authorized_keys</p>
+
+<p>对权限系统不甚了解的同学可以去拜读 Rei 的大作《Linux 用户权限》。</p>
+
+<p>Read More</p>
+
+<h2>Terminal Commands That Will Boost Your Productivity</h2>
+
+<p>curl 网站开发指南
+Rei: Linux 用户权限
+就想到九个，还差一个命令，怎么办？</p>
+
+    <nav class="article-previous fn-clear">
+        
+        <a class="prev" href="/blog//%E7%BC%96%E7%A8%8B%E6%80%9D%E6%83%B3/2014/10/09/%E5%A6%82%E4%BD%95%E6%88%90%E4%B8%BA%E4%B8%80%E4%B8%AA%E4%BC%98%E7%A7%80%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%91%98.html" rel="bookmark">&laquo;&nbsp;如何成为一个优秀的程序员</a>
+        
+        
+        <a class="next" href="/blog//tips/2015/04/12/Tips-never%20use%20rescue%20exception.html" rel="bookmark">Tips&nbsp;&raquo;</a>
+        
+    </nav>
+    <div class="comment">
+        
+            
+        
+    </div>
+</div>
+
+
+                    
+                        <div id="disqus_thread"></div>
+ <script type="text/javascript">
+     /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+     var disqus_shortname = 'minixalpha'; // required: replace example with your forum shortname
+
+     /* * * DON'T EDIT BELOW THIS LINE * * */
+     (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+ </script>
+ <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+                    
+                </div>
+                <div class="aside">
+                    <div class="aside-contact">
+                        <h4 class="title">About me</h4>
+                        <div class="det fn-clear">
+                            <div class="det-image">
+                                <img src="https://avatars.githubusercontent.com/soulspirit1229" />
+                            </div>
+                            <div class="det-text">
+                                <p>我是 SoulSpirit</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="aside-item">
+                        <h4 class="title">Recent Posts</h4>
+                        <ul class="list">
+                            
+                                <li><a href="/blog/reading%20ruby/2015/07/26/Reading%20Ruby%20-%20Class%20Methods.html" title="Reading Ruby - Class Methods" rel="bookmark">Reading Ruby - Class Methods</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20Validation.html" title="Reading Rails - Rails Validation" rel="bookmark">Reading Rails - Rails Validation</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20ActiveSupport%20delegation.html" title="Reading Rails - ActiveSupport delegation" rel="bookmark">Reading Rails - ActiveSupport delegation</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20ActiveRecord.html" title="Reading Rails - Active Record" rel="bookmark">Reading Rails - Active Record</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20ActiveModel%20Callbacks.html" title="Reading Rails - Active Model Callbacks" rel="bookmark">Reading Rails - Active Model Callbacks</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20Active%20Model%20Validation.html" title="Reading Rails - Active Model Validation" rel="bookmark">Reading Rails - Active Model Validation</a></li>
+                            
+                        </ul>
+                    </div>
+
+                    <div class="aside-item">
+                        <h4 class="title">Links</h4>
+                        <ul class="list">
+                            
+                                
+                                    
+                                    <li><a href="http://www.zhanxin.info" title="掌心" target="_blank">掌心</a></li>
+                                    
+                                    <li><a href="http://jekyllrb.com" title="Jekyll" target="_blank">Jekyll</a></li>
+                                    
+                                    <li><a href="http://www.zhanxin.info/themes.html" title="Jekyll Theme" target="_blank">Jekyll Theme</a></li>
+                                    
+                                
+                            
+                                
+                            
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="foot">
+            <div class="footer">
+                <p>Copyright 2013. All rights reserved. Powered by <a href="http://jekyllrb.com" target="_blank">Jekyll</a>, Design by <a href="http://www.zhanxin.info" target="_blank">zhanxin.info</a>.</p>
+            </div>
+        </div>
+        <script type="text/javascript" src="https://lib.sinaapp.com/js/jquery/1.8.3/jquery.min.js"></script>
+        
+    </body>
+</html>

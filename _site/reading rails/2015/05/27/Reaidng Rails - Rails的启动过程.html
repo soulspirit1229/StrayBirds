@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--
+         **
+         * Auther:      掌心
+         * Contact:     http://www.zhanxin.info
+         * Create:      2013.08.10
+         * Theme Name:  Kunka
+         * Authorize:   BY-NC-SA
+         **
+        -->
+        <meta charset="utf-8">
+        <title>Reading Rails - 逍遥游</title>
+        <!-- meta -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="generator" content="Jekyll" />
+        <meta name="author" content="soulspirit" />
+        <meta name="description" content="大知闲闲，小知间间；大言炎炎，小言詹詹。" />
+        <meta name="keywords" content="" />
+        <!-- atom -->
+        <link rel="alternate" type="application/atom+xml" title="Recent Entries" href="/blog/atom.xml" />
+        <link rel="shortcut icon" href="http://jekyllrb.com/favicon.png" type="image/x-icon" />
+        <!-- font-awesome -->
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Spirax' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/blog/themes/kunka/css/syntax.css">
+        <link rel="stylesheet" href="/blog/themes/kunka/css/main.css">
+        
+    </head>
+    <body>
+        <div class="head fn-clear">
+            <div class="header">
+                <h1 class="logo">
+                    <a href="/blog/"><i class="icon-anchor"></i></a>
+                </h1>
+                <nav class="nav">
+                    <ul>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/index.html">
+                                首页
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/categories.html">
+                                分类目录
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/archives.html">
+                                文章归档
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/contact.html">
+                                联系我
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/links.html">
+                                友情链接
+                            </a>
+                            
+                        </li>
+                        
+                    </ul>
+                </nav>
+                <div class="follow">
+                    
+                    <a href="/atom.xml" target="_blank"><i class="icon-rss"></i></a>
+                    
+                    <a href="http://weibo.com" target="_blank"><i class="icon-weibo"></i></a>
+                    
+                    <a href="http://renren.com" target="_blank"><i class="icon-renren"></i></a>
+                    
+                    <a href="http://github.com" target="_blank"><i class="icon-github-alt"></i></a>
+                    
+                    <a href="http://twitter.com" target="_blank"><i class="icon-twitter"></i></a>
+                    
+                    <a href="http://google.com" target="_blank"><i class="icon-google-plus"></i></a>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="contain fn-clear">
+            <div class="container fn-clear">
+                <div class="main">
+                    
+    <div class="article article-post">
+    <h2 class="title">Reading Rails</h2>
+    <div class="info">
+        <span class="info-title"><i class="icon-calendar"></i> Published: </span>
+        <span class="info-date">27 May 2015</span>
+        <span class="info-title"><i class="icon-folder-open"></i> Category: </span>
+        <span class="info-link"><a href="/StrayBirds/navigations/categories.html#Reading Rails-ref" >Reading Rails</a></span>
+    </div>
+    <h1>Reaidng Rails - Rails的启动过程</h1>
+
+<p><a href="http://www.tuicool.com/articles/2meEze">链接一</a></p>
+
+<p><a href="http://meladet.iteye.com/blog/423452">链接二</a></p>
+
+<h2>Rails执行环境</h2>
+
+<p>在ruby的bin文件执行环境下面
+~/.rbenv/versions/2.2.1/bin/rails</p>
+<div class="highlight"><pre><code class="language-rb" data-lang="rb"><span class="nb">require</span> <span class="s1">&#39;rubygems&#39;</span>
+<span class="n">version</span> <span class="o">=</span> <span class="s2">&quot;&gt;= 0&quot;</span>
+<span class="k">if</span> <span class="no">ARGV</span><span class="o">.</span><span class="n">first</span>
+  <span class="n">str</span> <span class="o">=</span> <span class="no">ARGV</span><span class="o">.</span><span class="n">first</span>
+  <span class="n">str</span> <span class="o">=</span> <span class="n">str</span><span class="o">.</span><span class="n">dup</span><span class="o">.</span><span class="n">force_encoding</span><span class="p">(</span><span class="s2">&quot;BINARY&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">str</span><span class="o">.</span><span class="n">respond_to?</span> <span class="ss">:force_encoding</span>
+  <span class="k">if</span> <span class="n">str</span> <span class="o">=~</span> <span class="sr">/\A_(.*)_\z/</span> <span class="ow">and</span> <span class="no">Gem</span><span class="o">::</span><span class="no">Version</span><span class="o">.</span><span class="n">correct?</span><span class="p">(</span><span class="vg">$1</span><span class="p">)</span> <span class="k">then</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="vg">$1</span>
+    <span class="no">ARGV</span><span class="o">.</span><span class="n">shift</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+<span class="n">gem</span> <span class="s1">&#39;railties&#39;</span><span class="p">,</span> <span class="n">version</span>
+<span class="nb">load</span> <span class="no">Gem</span><span class="o">.</span><span class="n">bin_path</span><span class="p">(</span><span class="s1">&#39;railties&#39;</span><span class="p">,</span> <span class="s1">&#39;rails&#39;</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
+</code></pre></div>
+<p>先解释一下这这个文件中的内容，#开头的注释不多说：
+1、require‘rubygems’,这句话说明需要加载rubygems.rb文件，那么这个文件在什么地方呢？这边需要了解require加载文件时候的查找路径都有哪些，ruby中也有类似java classpath的一个东西叫做$LOAD<em>PATH，存储在$:中，require加载后面的文件就是从这个变量中的路径开始。打开命令行窗口，输入ruby –e “puts $:”或者 ruby –e ”puts $LOAD</em>PATH”可以查看你系统中的ruby的loadpath。</p>
+<div class="highlight"><pre><code class="language-rb" data-lang="rb"><span class="o">~</span> <span class="err">➤</span> <span class="n">ruby</span> <span class="o">-</span><span class="n">e</span> <span class="s2">&quot;puts $:&quot;</span>
+<span class="sr">/Users/s</span><span class="n">henghuan</span><span class="o">/.</span><span class="n">rbenv</span><span class="o">/</span><span class="n">rbenv</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="nb">exec</span><span class="o">/</span><span class="n">gem</span><span class="o">-</span><span class="n">rehash</span>
+<span class="sr">/Users/s</span><span class="n">henghuan</span><span class="o">/.</span><span class="n">rbenv</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ruby</span><span class="o">/</span><span class="n">site_ruby</span><span class="o">/</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span>
+<span class="o">/</span><span class="no">Users</span><span class="o">/</span><span class="n">shenghuan</span><span class="o">/.</span><span class="n">rbenv</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ruby</span><span class="o">/</span><span class="n">site_ruby</span><span class="o">/</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">/</span><span class="n">x86_64</span><span class="o">-</span><span class="n">darwin14</span>
+<span class="sr">/Users/s</span><span class="n">henghuan</span><span class="o">/.</span><span class="n">rbenv</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ruby</span><span class="o">/</span><span class="n">site_ruby</span>
+<span class="sr">/Users/s</span><span class="n">henghuan</span><span class="o">/.</span><span class="n">rbenv</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ruby</span><span class="o">/</span><span class="n">vendor_ruby</span><span class="o">/</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span>
+<span class="o">/</span><span class="no">Users</span><span class="o">/</span><span class="n">shenghuan</span><span class="o">/.</span><span class="n">rbenv</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ruby</span><span class="o">/</span><span class="n">vendor_ruby</span><span class="o">/</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">/</span><span class="n">x86_64</span><span class="o">-</span><span class="n">darwin14</span>
+<span class="sr">/Users/s</span><span class="n">henghuan</span><span class="o">/.</span><span class="n">rbenv</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ruby</span><span class="o">/</span><span class="n">vendor_ruby</span>
+<span class="sr">/Users/s</span><span class="n">henghuan</span><span class="o">/.</span><span class="n">rbenv</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ruby</span><span class="o">/</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span>
+<span class="o">/</span><span class="no">Users</span><span class="o">/</span><span class="n">shenghuan</span><span class="o">/.</span><span class="n">rbenv</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ruby</span><span class="o">/</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">/</span><span class="n">x86_64</span><span class="o">-</span><span class="n">darwin14</span>
+</code></pre></div>
+<p>那么require ’rubygems’它就会去上面列出的几个路径中查找一个文件名为rubygems.rb，不难发现在/Users/shenghuan/.rbenv/versions/2.2.1/lib/ruby/2.2.0
+下面有这个文件。</p>
+
+<p>2、version = &quot;&gt; 0&quot;，这句话说明加载gem的默认版本</p>
+
+<p>3、这一段if可以接收用户输入gem的版本，如果不输入，则默认加载最新的版本。</p>
+
+<p>4、gem ‘railties’,version调用的rubygems.rb中的方法，方法定义如下，这个方法的作用是激活满足版本条件的rails
+/Users/shenghuan/.rbenv/versions/2.2.1/lib/ruby/2.2.0/rubygems.rb</p>
+
+<p>5、到最后一句load ‘rails’了，这句话其实跟reqiure的功能一样。只不过是每次都重新加载rails文件，这个‘rails’文件也是从$LOAD<em>PATH中查找，在上一点说过Gem.activate(gem</em>name, *version<em>requirements)这个方法最后动态插入了gem</em>name相关的bin<em>path到$LOAD</em>PATH中，这个bin_path就包含了我们要找的’rails’。</p>
+
+<p>在rails中添加puts Gem.bin_path(&#39;railties&#39;,&#39;rails&#39;,version) ，打印出Rails的执行路径，重新执行Rails命令
+/Users/shenghuan/.rbenv/versions/2.2.1/lib/ruby/gems/2.2.0/gems/railties-4.1.8/bin/rails
+我们转到/Users/shenghuan/.rbenv/versions/2.2.1/lib/ruby/gems/2.2.0/gems/railties-4.1.8/bin/rails目录下，用文本编辑器打开</p>
+<div class="highlight"><pre><code class="language-rb" data-lang="rb"><span class="c1">#!/usr/bin/env ruby</span>
+<span class="n">git_path</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">&#39;../../../.git&#39;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+<span class="k">if</span> <span class="no">File</span><span class="o">.</span><span class="n">exist?</span><span class="p">(</span><span class="n">git_path</span><span class="p">)</span>
+  <span class="n">railties_path</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">&#39;../../lib&#39;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+  <span class="vg">$:</span><span class="o">.</span><span class="n">unshift</span><span class="p">(</span><span class="n">railties_path</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="nb">require</span> <span class="s2">&quot;rails/cli&quot;</span>
+<span class="err">加载</span><span class="o">/</span><span class="no">Users</span><span class="o">/</span><span class="n">shenghuan</span><span class="o">/.</span><span class="n">rbenv</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ruby</span><span class="o">/</span><span class="n">gems</span><span class="o">/</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">/</span><span class="n">gems</span><span class="o">/</span><span class="n">railties</span><span class="o">-</span><span class="mi">4</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">8</span><span class="o">/</span><span class="n">lib</span><span class="err">下的文件</span>
+<span class="n">rails</span><span class="o">/</span><span class="n">cli</span><span class="err">的源代码如下</span>
+<span class="nb">require</span> <span class="s1">&#39;rails/app_rails_loader&#39;</span>
+<span class="c1"># If we are inside a Rails application this method performs an exec and thus</span>
+<span class="c1"># the rest of this script is not run.</span>
+<span class="no">Rails</span><span class="o">::</span><span class="no">AppRailsLoader</span><span class="o">.</span><span class="n">exec_app_rails</span>
+<span class="nb">require</span> <span class="s1">&#39;rails/ruby_version_check&#39;</span>
+<span class="no">Signal</span><span class="o">.</span><span class="n">trap</span><span class="p">(</span><span class="s2">&quot;INT&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="nb">puts</span><span class="p">;</span> <span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">}</span>
+<span class="k">if</span> <span class="no">ARGV</span><span class="o">.</span><span class="n">first</span> <span class="o">==</span> <span class="s1">&#39;plugin&#39;</span>
+  <span class="no">ARGV</span><span class="o">.</span><span class="n">shift</span>
+  <span class="nb">require</span> <span class="s1">&#39;rails/commands/plugin&#39;</span>
+<span class="k">else</span>
+  <span class="nb">require</span> <span class="s1">&#39;rails/commands/application&#39;</span>
+<span class="k">end</span>
+<span class="err">首先</span><span class="n">check</span> <span class="n">ruby</span><span class="err">的</span><span class="n">version</span><span class="err">，然后根据敲的命令是否有</span><span class="n">plugin</span><span class="err">，在调取相应的命令。如果是</span><span class="n">rails</span> <span class="kp">new</span> <span class="n">app</span><span class="err">，那么执行</span><span class="s1">&#39;rails/commands/application&#39;</span><span class="err">，代码如下</span>
+<span class="nb">require</span> <span class="s1">&#39;rails/generators&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;rails/generators/rails/app/app_generator&#39;</span>
+<span class="k">module</span> <span class="nn">Rails</span>
+  <span class="k">module</span> <span class="nn">Generators</span>
+    <span class="k">class</span> <span class="nc">AppGenerator</span> <span class="c1"># :nodoc:</span>
+      <span class="c1"># We want to exit on failure to be kind to other libraries</span>
+      <span class="c1"># This is only when accessing via CLI</span>
+      <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">exit_on_failure?</span>
+        <span class="kp">true</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+<span class="n">args</span> <span class="o">=</span> <span class="no">Rails</span><span class="o">::</span><span class="no">Generators</span><span class="o">::</span><span class="no">ARGVScrubber</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">ARGV</span><span class="p">)</span><span class="o">.</span><span class="n">prepare!</span>
+<span class="no">Rails</span><span class="o">::</span><span class="no">Generators</span><span class="o">::</span><span class="no">AppGenerator</span><span class="o">.</span><span class="n">start</span> <span class="n">args</span>
+</code></pre></div>
+<p>对参数做完处理后，使用AppGenerator启动</p>
+
+    <nav class="article-previous fn-clear">
+        
+        <a class="prev" href="/blog//odoq/2015/05/16/ODOQ-rescue%20ensure%E7%9A%84%E4%BD%BF%E7%94%A8.html" rel="bookmark">&laquo;&nbsp;One Day One Question</a>
+        
+        
+        <a class="next" href="/blog//reading%20rails/2015/05/28/Reading%20Rails%20-%20Railties.html" rel="bookmark">Reading Rails&nbsp;&raquo;</a>
+        
+    </nav>
+    <div class="comment">
+        
+            
+        
+    </div>
+</div>
+
+
+                    
+                        <div id="disqus_thread"></div>
+ <script type="text/javascript">
+     /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+     var disqus_shortname = 'minixalpha'; // required: replace example with your forum shortname
+
+     /* * * DON'T EDIT BELOW THIS LINE * * */
+     (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+ </script>
+ <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+                    
+                </div>
+                <div class="aside">
+                    <div class="aside-contact">
+                        <h4 class="title">About me</h4>
+                        <div class="det fn-clear">
+                            <div class="det-image">
+                                <img src="https://avatars.githubusercontent.com/soulspirit1229" />
+                            </div>
+                            <div class="det-text">
+                                <p>我是 SoulSpirit</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="aside-item">
+                        <h4 class="title">Recent Posts</h4>
+                        <ul class="list">
+                            
+                                <li><a href="/blog/reading%20ruby/2015/07/26/Reading%20Ruby%20-%20Class%20Methods.html" title="Reading Ruby - Class Methods" rel="bookmark">Reading Ruby - Class Methods</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20Validation.html" title="Reading Rails - Rails Validation" rel="bookmark">Reading Rails - Rails Validation</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20ActiveSupport%20delegation.html" title="Reading Rails - ActiveSupport delegation" rel="bookmark">Reading Rails - ActiveSupport delegation</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20ActiveRecord.html" title="Reading Rails - Active Record" rel="bookmark">Reading Rails - Active Record</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20ActiveModel%20Callbacks.html" title="Reading Rails - Active Model Callbacks" rel="bookmark">Reading Rails - Active Model Callbacks</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20Active%20Model%20Validation.html" title="Reading Rails - Active Model Validation" rel="bookmark">Reading Rails - Active Model Validation</a></li>
+                            
+                        </ul>
+                    </div>
+
+                    <div class="aside-item">
+                        <h4 class="title">Links</h4>
+                        <ul class="list">
+                            
+                                
+                                    
+                                    <li><a href="http://www.zhanxin.info" title="掌心" target="_blank">掌心</a></li>
+                                    
+                                    <li><a href="http://jekyllrb.com" title="Jekyll" target="_blank">Jekyll</a></li>
+                                    
+                                    <li><a href="http://www.zhanxin.info/themes.html" title="Jekyll Theme" target="_blank">Jekyll Theme</a></li>
+                                    
+                                
+                            
+                                
+                            
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="foot">
+            <div class="footer">
+                <p>Copyright 2013. All rights reserved. Powered by <a href="http://jekyllrb.com" target="_blank">Jekyll</a>, Design by <a href="http://www.zhanxin.info" target="_blank">zhanxin.info</a>.</p>
+            </div>
+        </div>
+        <script type="text/javascript" src="https://lib.sinaapp.com/js/jquery/1.8.3/jquery.min.js"></script>
+        
+    </body>
+</html>

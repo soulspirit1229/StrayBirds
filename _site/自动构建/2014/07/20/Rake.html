@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--
+         **
+         * Auther:      掌心
+         * Contact:     http://www.zhanxin.info
+         * Create:      2013.08.10
+         * Theme Name:  Kunka
+         * Authorize:   BY-NC-SA
+         **
+        -->
+        <meta charset="utf-8">
+        <title>Rake汇总 - 逍遥游</title>
+        <!-- meta -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="generator" content="Jekyll" />
+        <meta name="author" content="soulspirit" />
+        <meta name="description" content="大知闲闲，小知间间；大言炎炎，小言詹詹。" />
+        <meta name="keywords" content="" />
+        <!-- atom -->
+        <link rel="alternate" type="application/atom+xml" title="Recent Entries" href="/blog/atom.xml" />
+        <link rel="shortcut icon" href="http://jekyllrb.com/favicon.png" type="image/x-icon" />
+        <!-- font-awesome -->
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Spirax' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/blog/themes/kunka/css/syntax.css">
+        <link rel="stylesheet" href="/blog/themes/kunka/css/main.css">
+        
+    </head>
+    <body>
+        <div class="head fn-clear">
+            <div class="header">
+                <h1 class="logo">
+                    <a href="/blog/"><i class="icon-anchor"></i></a>
+                </h1>
+                <nav class="nav">
+                    <ul>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/index.html">
+                                首页
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/categories.html">
+                                分类目录
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/archives.html">
+                                文章归档
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/contact.html">
+                                联系我
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/links.html">
+                                友情链接
+                            </a>
+                            
+                        </li>
+                        
+                    </ul>
+                </nav>
+                <div class="follow">
+                    
+                    <a href="/atom.xml" target="_blank"><i class="icon-rss"></i></a>
+                    
+                    <a href="http://weibo.com" target="_blank"><i class="icon-weibo"></i></a>
+                    
+                    <a href="http://renren.com" target="_blank"><i class="icon-renren"></i></a>
+                    
+                    <a href="http://github.com" target="_blank"><i class="icon-github-alt"></i></a>
+                    
+                    <a href="http://twitter.com" target="_blank"><i class="icon-twitter"></i></a>
+                    
+                    <a href="http://google.com" target="_blank"><i class="icon-google-plus"></i></a>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="contain fn-clear">
+            <div class="container fn-clear">
+                <div class="main">
+                    
+    <div class="article article-post">
+    <h2 class="title">Rake汇总</h2>
+    <div class="info">
+        <span class="info-title"><i class="icon-calendar"></i> Published: </span>
+        <span class="info-date">20 Jul 2014</span>
+        <span class="info-title"><i class="icon-folder-open"></i> Category: </span>
+        <span class="info-link"><a href="/StrayBirds/navigations/categories.html#自动构建-ref" >自动构建</a></span>
+    </div>
+    <h1>Rake命令</h1>
+
+<h4>Rake的两个重要链接</h4>
+
+<p>名人地址 | 博客地址
+----- | -----
+Martin Fowler | <a href="http://martinfowler.com/articles/rake.html#RakeTasks">http://martinfowler.com/articles/rake.html#RakeTasks</a>
+Rake part series | <a href="http://devblog.avdi.org/2014/04/29/rake-part-7-multitask">http://devblog.avdi.org/2014/04/29/rake-part-7-multitask</a>
+Rake documentation | <a href="http://www.rubydoc.info/gems/rake/0.9.2/Rake/Task">http://www.rubydoc.info/gems/rake/0.9.2/Rake/Task</a></p>
+
+<hr>
+
+<!-- create time: 2014-11-17 01:23:09  -->
+
+<p>用pandoc将md的文件转换成为html文件</p>
+
+<blockquote>
+<div class="highlight"><pre><code class="language-text" data-lang="text">  %W[ch1.md ch2.md ch3.md].each do |md_file|
+    html_file = File.basename(md_file, &quot;.md&quot;) + &quot;.html&quot;
+    system(&quot;pandoc -o #{html_file} #{md_file}&quot;)
+  end
+</code></pre></div>
+<p>这里有个问题是每次运行这个命令，都需要将所有的md文件转换成html一遍</p>
+</blockquote>
+
+<p>问题：能不能根据文件的更改情况来进行转换，如果没有更改，就不操作pandoc呢？</p>
+
+<blockquote>
+<div class="highlight"><pre><code class="language-text" data-lang="text">  task :default =&gt; :html
+  task :html =&gt; %W[ch1.html ch2.html ch3.html]
+  %W[ch1.md ch2.md ch3.md].each do |md_file|
+    html_file = File.basename(md_file, &quot;.md&quot;) + &quot;.html&quot;
+    file html_file =&gt; md_file do
+      sh &quot;pandoc -o #{html_file} #{md_file}&quot;
+    end
+  end
+</code></pre></div></blockquote>
+
+<p>write a rule instead of it</p>
+
+<blockquote>
+<div class="highlight"><pre><code class="language-text" data-lang="text">  task :default =&gt; :html
+  task :html =&gt; %W[ch1.html ch2.html ch3.html]
+  rule &quot;.html&quot; =&gt; &quot;.md&quot; do |t|
+    sh &quot;pandoc -o #{t.name} #{t.source}&quot;
+  end
+</code></pre></div></blockquote>
+
+<p>增加markdown后缀名的文件也能打包成html文件，同时去除文件夹中一些不想打包的文件, 使用了
+Rake::FileList</p>
+
+<blockquote>
+<div class="highlight"><pre><code class="language-text" data-lang="text">  source_files = Rake::FileList.new(&quot;**/*.md&quot;, &quot;**/*.markdown&quot;) do |fl|
+    fl.exclude(&quot;~*&quot;)
+    fl.exclude(/^scratch\//)
+    fl.exclude do |f|
+      `git ls-files #{f}`.empty?
+    end
+  end
+  task :default =&gt; :html
+  task :html =&gt; source_files.ext(&quot;.html&quot;)
+  rule &quot;.html&quot; =&gt; &quot;.md&quot; do |t|
+    sh &quot;pandoc -o #{t.name} #{t.source}&quot;
+  end
+  rule &quot;.html&quot; =&gt; &quot;.markdown&quot; do |t|
+    sh &quot;pandoc -o #{t.name} #{t.source}&quot;
+  end
+</code></pre></div></blockquote>
+
+<p>在开发过程中，rake常常会报错，怎么调试呢？
+可以使用</p>
+
+<p>1 rake －P
+tells it to dump a list of prerequisites.（先决条件）
+在rocket2尝试下，发现</p>
+
+<blockquote>
+<div class="highlight"><pre><code class="language-text" data-lang="text">rake db:migrate:reset
+    db:drop
+    db:create
+    db:migrate
+</code></pre></div>
+<p>说明db:migrate:reset就包含了以下几种方法</p>
+</blockquote>
+
+<p>2 在Rakefile中设置Rake.application.options.trace_rules = true</p>
+
+<p>所以最后的结果是这个样子的</p>
+
+<blockquote>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Rake.application.options.trace_rules = true
+SOURCE_FILES = Rake::FileList.new(&quot;**/*.md&quot;, &quot;**/*.markdown&quot;) do |fl|
+  fl.exclude(&quot;~*&quot;)
+  fl.exclude(/^scratch\//)
+  fl.exclude do |f|
+    `git ls-files #{f}`.empty?
+  end
+end
+
+task :default =&gt; :html
+task :html =&gt; SOURCE_FILES.ext(&quot;.html&quot;)
+
+rule &quot;.html&quot; =&gt; -&gt;(f){source_for_html(f)} do |t|
+  sh &quot;pandoc -o #{t.name} #{t.source}&quot;
+end
+
+def source_for_html(html_file)
+  SOURCE_FILES.detect{|f| f.ext(&#39;&#39;) == html_file.ext(&#39;&#39;)}
+end
+</code></pre></div></blockquote>
+
+<p>pathmap的使用，类似ant中的path</p>
+
+<blockquote>
+<div class="highlight"><pre><code class="language-text" data-lang="text">SOURCE_FILES.pathmap(&quot;%p&quot;)
+# =&gt; [&quot;ch1.md&quot;, &quot;ch3.md&quot;, &quot;ch2.md&quot;, &quot;subdir/appendix.md&quot;, &quot;ch4.markdown&quot;]
+SOURCE_FILES.pathmap(&quot;%f&quot;)
+# =&gt; [&quot;ch1.md&quot;, &quot;ch3.md&quot;, &quot;ch2.md&quot;, &quot;appendix.md&quot;, &quot;ch4.markdown&quot;]
+SOURCE_FILES.pathmap(&quot;%n&quot;)
+# =&gt; [&quot;ch1&quot;, &quot;ch3&quot;, &quot;ch2&quot;, &quot;appendix&quot;, &quot;ch4&quot;]
+SOURCE_FILES.pathmap(&quot;%d&quot;)
+# =&gt; [&quot;.&quot;, &quot;.&quot;, &quot;.&quot;, &quot;subdir&quot;, &quot;.&quot;]
+SOURCE_FILES.pathmap(&quot;%x&quot;)
+# =&gt; [&quot;.md&quot;, &quot;.md&quot;, &quot;.md&quot;, &quot;.md&quot;, &quot;.markdown&quot;]
+SOURCE_FILES.pathmap(&quot;%X&quot;)
+# =&gt; [&quot;ch1&quot;, &quot;ch3&quot;, &quot;ch2&quot;, &quot;subdir/appendix&quot;, &quot;ch4&quot;]
+
+SOURCE_FILES = Rake::FileList.new(&quot;sources/**/*.md&quot;, &quot;sources/**/*.markdown&quot;)
+
+SOURCE_FILES
+# =&gt; [&quot;sources/ch1.md&quot;, &quot;sources/ch3.md&quot;, &quot;sources/ch2.md&quot;, &quot;sources/subdir/appendix.md&quot;, &quot;sources/ch4.markdown&quot;]
+
+OUTPUT_FILES = SOURCE_FILES.pathmap(&quot;%{^sources/,outputs/}X.html&quot;)
+OUTPUT_FILES
+# =&gt; [&quot;outputs/ch1.html&quot;, &quot;outputs/ch3.html&quot;, &quot;outputs/ch2.html&quot;, &quot;outputs/subdir/appendix.html&quot;, &quot;outputs/ch4.html&quot;]
+</code></pre></div></blockquote>
+
+<p>所以加入路径之后的操作是这样的</p>
+
+<blockquote>
+<div class="highlight"><pre><code class="language-text" data-lang="text">SOURCE_FILES = Rake::FileList.new(&quot;sources/**/*.md&quot;, &quot;sources/**/*.markdown&quot;) do |fl|
+  fl.exclude(&quot;**/~*&quot;)
+  fl.exclude(/^sources\/scratch\//)
+  fl.exclude do |f|
+    `git ls-files #{f}`.empty?
+  end
+end
+
+task :default =&gt; :html
+task :html =&gt; SOURCE_FILES.pathmap(&quot;%{^sources/,outputs/}X.html&quot;)
+
+directory &quot;outputs&quot;
+
+rule &quot;.html&quot; =&gt; [-&gt;(f){source_for_html(f)}, &quot;outputs&quot;] do |t|
+  mkdir_p t.name.pathmap(&quot;%d&quot;)
+  sh &quot;pandoc -o #{t.name} #{t.source}&quot;
+end
+
+def source_for_html(html_file)
+  SOURCE_FILES.detect{|f|
+    f.ext(&#39;&#39;) == html_file.pathmap(&quot;%{^outputs/,sources/}X&quot;)
+  }
+end
+
+task :clean do
+  rm_rf &quot;outputs&quot;
+end
+</code></pre></div></blockquote>
+
+<p>当然clean不是总是这么简单，复杂的操作需要：
+require &#39;rake/clean&#39;</p>
+
+<p>We can use the CLEAN list to tell Rake which files are intermediate files.</p>
+
+<blockquote>
+<div class="highlight"><pre><code class="language-text" data-lang="text">file &quot;book.html&quot; =&gt; SOURCE_FILES.ext(&quot;.html&quot;) do |t|
+  chapters   = FileList[&quot;**/ch*.html&quot;]
+  backmatter = FileList[&quot;backmatter/*.html&quot;]
+  sh &quot;cat #{chapters} #{backmatter} &gt; #{t.name}&quot;
+end
+CLEAN.include(&quot;book.html&quot;)
+</code></pre></div></blockquote>
+
+<p>Next, we’ll add files to another list called CLOBBER. This list tells Rake which files are considered final products.</p>
+
+<blockquote>
+<div class="highlight"><pre><code class="language-text" data-lang="text">file &quot;book.mobi&quot; =&gt; &quot;book.epub&quot; do |t|
+  sh &quot;kindlegen book.epub -o #{t.name}&quot;
+end
+CLOBBER &lt;&lt; &quot;book.mobi&quot;
+</code></pre></div></blockquote>
+
+    <nav class="article-previous fn-clear">
+        
+        <a class="prev" href="/blog//%E6%80%BB%E7%BB%93/2014/07/20/Active%20Record%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95.html" rel="bookmark">&laquo;&nbsp;Active Record常用方法</a>
+        
+        
+        <a class="next" href="/blog//%E6%B5%8B%E8%AF%95/2014/07/20/rspec.html" rel="bookmark">Rspec&nbsp;&raquo;</a>
+        
+    </nav>
+    <div class="comment">
+        
+            
+        
+    </div>
+</div>
+
+
+                    
+                        <div id="disqus_thread"></div>
+ <script type="text/javascript">
+     /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+     var disqus_shortname = 'minixalpha'; // required: replace example with your forum shortname
+
+     /* * * DON'T EDIT BELOW THIS LINE * * */
+     (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+ </script>
+ <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+                    
+                </div>
+                <div class="aside">
+                    <div class="aside-contact">
+                        <h4 class="title">About me</h4>
+                        <div class="det fn-clear">
+                            <div class="det-image">
+                                <img src="https://avatars.githubusercontent.com/soulspirit1229" />
+                            </div>
+                            <div class="det-text">
+                                <p>我是 SoulSpirit</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="aside-item">
+                        <h4 class="title">Recent Posts</h4>
+                        <ul class="list">
+                            
+                                <li><a href="/blog/reading%20ruby/2015/07/26/Reading%20Ruby%20-%20Class%20Methods.html" title="Reading Ruby - Class Methods" rel="bookmark">Reading Ruby - Class Methods</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20Validation.html" title="Reading Rails - Rails Validation" rel="bookmark">Reading Rails - Rails Validation</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20ActiveSupport%20delegation.html" title="Reading Rails - ActiveSupport delegation" rel="bookmark">Reading Rails - ActiveSupport delegation</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20ActiveRecord.html" title="Reading Rails - Active Record" rel="bookmark">Reading Rails - Active Record</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20ActiveModel%20Callbacks.html" title="Reading Rails - Active Model Callbacks" rel="bookmark">Reading Rails - Active Model Callbacks</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20Active%20Model%20Validation.html" title="Reading Rails - Active Model Validation" rel="bookmark">Reading Rails - Active Model Validation</a></li>
+                            
+                        </ul>
+                    </div>
+
+                    <div class="aside-item">
+                        <h4 class="title">Links</h4>
+                        <ul class="list">
+                            
+                                
+                                    
+                                    <li><a href="http://www.zhanxin.info" title="掌心" target="_blank">掌心</a></li>
+                                    
+                                    <li><a href="http://jekyllrb.com" title="Jekyll" target="_blank">Jekyll</a></li>
+                                    
+                                    <li><a href="http://www.zhanxin.info/themes.html" title="Jekyll Theme" target="_blank">Jekyll Theme</a></li>
+                                    
+                                
+                            
+                                
+                            
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="foot">
+            <div class="footer">
+                <p>Copyright 2013. All rights reserved. Powered by <a href="http://jekyllrb.com" target="_blank">Jekyll</a>, Design by <a href="http://www.zhanxin.info" target="_blank">zhanxin.info</a>.</p>
+            </div>
+        </div>
+        <script type="text/javascript" src="https://lib.sinaapp.com/js/jquery/1.8.3/jquery.min.js"></script>
+        
+    </body>
+</html>

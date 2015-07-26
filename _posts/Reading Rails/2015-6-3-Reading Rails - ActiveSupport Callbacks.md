@@ -7,11 +7,38 @@ comments: true
 
 # Reading Rails - ActiveSupport Callbacks
 
-~~~rb
+在ActiveSupport::Callbacks中看到一个例子，阐述了Callback的用法。
 
+~~~rb
+class Record
+  include ActiveSupport::Callbacks
+  define_callbacks :save
+
+  def save
+    run_callbacks :save do
+      puts "- save"
+    end
+  end
+end
+
+class PersonRecord < Record
+  set_callback :save, :before, :saving_message
+  def saving_message
+    puts "saving..."
+  end
+
+  set_callback :save, :after do |object|
+    puts "saved"
+  end
+end
+
+person = PersonRecord.new
+person.save
 ~~~
 
-## A define_callbacks
+其中主要用到了两个方法define\_callbacks以及set_callback的方法，我们主要来看下这两个方法。
+
+## A define\_callbacks
 我们先来看Callbacks里面比较重要的三个类： CallbackChain， CallbackSequence， Callback.
 我们来看CallbackChain.
 
@@ -67,6 +94,7 @@ A include Enumerable
 
 B Mutex
 
+所以总的来说，define_callbacks就是定义_#{name}\_callbacks,接下来就是使用set_callbacks。
 
 ## B set_callbacks
 
@@ -85,7 +113,7 @@ B Mutex
         end
       end
 ~~~
-
+主要的方法之一是创建了Callback。
 我们再来看看Callback.build方法
 
 ~~~rb
@@ -124,3 +152,22 @@ B Mutex
   @unless=[]>]
 ~~~
 
+set_callbacks的主要作用是：将callback这些节点加入到chain当中去，以便后来的使用
+
+## run_callbacks
+
+~~~rb
+
+	79: def run_callbacks(kind, &block)
+    80:   cbs = send("_#{kind}_callbacks")
+ => 81:   if cbs.empty?
+    82:     yield if block_given?
+    83:   else
+    84:     runner = cbs.compile
+    85:     e = Filters::Environment.new(self, false, nil, block)
+    86:     runner.call(e).value
+    87:   end
+    88: end
+~~~
+
+在这里，cbs就是定义了的chain，如果cbs为空，执行方法，如果不为空，那么就需要执行cbs的chain。

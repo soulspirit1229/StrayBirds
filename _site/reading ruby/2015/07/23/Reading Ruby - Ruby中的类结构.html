@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--
+         **
+         * Auther:      掌心
+         * Contact:     http://www.zhanxin.info
+         * Create:      2013.08.10
+         * Theme Name:  Kunka
+         * Authorize:   BY-NC-SA
+         **
+        -->
+        <meta charset="utf-8">
+        <title>Reading Ruby - Ruby中的类结构 - 逍遥游</title>
+        <!-- meta -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="generator" content="Jekyll" />
+        <meta name="author" content="soulspirit" />
+        <meta name="description" content="大知闲闲，小知间间；大言炎炎，小言詹詹。" />
+        <meta name="keywords" content="" />
+        <!-- atom -->
+        <link rel="alternate" type="application/atom+xml" title="Recent Entries" href="/blog/atom.xml" />
+        <link rel="shortcut icon" href="http://jekyllrb.com/favicon.png" type="image/x-icon" />
+        <!-- font-awesome -->
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Spirax' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/blog/themes/kunka/css/syntax.css">
+        <link rel="stylesheet" href="/blog/themes/kunka/css/main.css">
+        
+    </head>
+    <body>
+        <div class="head fn-clear">
+            <div class="header">
+                <h1 class="logo">
+                    <a href="/blog/"><i class="icon-anchor"></i></a>
+                </h1>
+                <nav class="nav">
+                    <ul>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/index.html">
+                                首页
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/categories.html">
+                                分类目录
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/archives.html">
+                                文章归档
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/contact.html">
+                                联系我
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/links.html">
+                                友情链接
+                            </a>
+                            
+                        </li>
+                        
+                    </ul>
+                </nav>
+                <div class="follow">
+                    
+                    <a href="/atom.xml" target="_blank"><i class="icon-rss"></i></a>
+                    
+                    <a href="http://weibo.com" target="_blank"><i class="icon-weibo"></i></a>
+                    
+                    <a href="http://renren.com" target="_blank"><i class="icon-renren"></i></a>
+                    
+                    <a href="http://github.com" target="_blank"><i class="icon-github-alt"></i></a>
+                    
+                    <a href="http://twitter.com" target="_blank"><i class="icon-twitter"></i></a>
+                    
+                    <a href="http://google.com" target="_blank"><i class="icon-google-plus"></i></a>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="contain fn-clear">
+            <div class="container fn-clear">
+                <div class="main">
+                    
+    <div class="article article-post">
+    <h2 class="title">Reading Ruby - Ruby中的类结构</h2>
+    <div class="info">
+        <span class="info-title"><i class="icon-calendar"></i> Published: </span>
+        <span class="info-date">23 Jul 2015</span>
+        <span class="info-title"><i class="icon-folder-open"></i> Category: </span>
+        <span class="info-link"><a href="/StrayBirds/navigations/categories.html#Reading Ruby-ref" >Reading Ruby</a></span>
+    </div>
+    <h1>Ruby中的类结构</h1>
+
+<p>我们首先来看Module的instance_methods</p>
+<div class="highlight"><pre><code class="language-rb" data-lang="rb"><span class="n">irb</span><span class="p">(</span><span class="n">main</span><span class="p">):</span><span class="mo">015</span><span class="p">:</span><span class="mi">0</span><span class="o">&gt;</span> <span class="no">Module</span><span class="o">.</span><span class="n">instance_methods</span>
+<span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:freeze</span><span class="p">,</span> <span class="ss">:===</span><span class="p">,</span> <span class="ss">:==</span><span class="p">,</span> <span class="ss">:&lt;=&gt;</span><span class="p">,</span> <span class="p">:</span><span class="o">&lt;</span><span class="p">,</span> <span class="p">:</span><span class="o">&lt;=</span><span class="p">,</span> <span class="ss">:&gt;</span><span class="p">,</span> <span class="ss">:&gt;=</span><span class="p">,</span> <span class="ss">:to_s</span><span class="p">,</span> <span class="ss">:inspect</span><span class="p">,</span> <span class="ss">:included_modules</span><span class="p">,</span> <span class="ss">:include?</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:ancestors</span><span class="p">,</span> <span class="ss">:instance_methods</span><span class="p">,</span> <span class="ss">:public_instance_methods</span><span class="p">,</span> <span class="ss">:protected_instance_methods</span><span class="p">,</span> <span class="ss">:private_instance_methods</span><span class="p">,</span> <span class="ss">:constants</span><span class="p">,</span> <span class="ss">:const_get</span><span class="p">,</span> <span class="ss">:const_set</span><span class="p">,</span> <span class="ss">:const_defined?</span><span class="p">,</span> <span class="ss">:const_missing</span><span class="p">,</span> <span class="ss">:class_variables</span><span class="p">,</span> <span class="ss">:remove_class_variable</span><span class="p">,</span> <span class="ss">:class_variable_get</span><span class="p">,</span> <span class="ss">:class_variable_set</span><span class="p">,</span> <span class="ss">:class_variable_defined?</span><span class="p">,</span> <span class="ss">:public_constant</span><span class="p">,</span> <span class="ss">:private_constant</span><span class="p">,</span> <span class="ss">:module_exec</span><span class="p">,</span> <span class="ss">:class_exec</span><span class="p">,</span> <span class="ss">:module_eval</span><span class="p">,</span> <span class="ss">:class_eval</span><span class="p">,</span> <span class="ss">:method_defined?</span><span class="p">,</span> <span class="ss">:public_method_defined?</span><span class="p">,</span> <span class="ss">:private_method_defined?</span><span class="p">,</span> <span class="ss">:protected_method_defined?</span><span class="p">,</span> <span class="ss">:public_class_method</span><span class="p">,</span> <span class="ss">:private_class_method</span><span class="p">,</span> <span class="ss">:autoload</span><span class="p">,</span> <span class="ss">:autoload?</span><span class="p">,</span> <span class="ss">:instance_method</span><span class="p">,</span> <span class="ss">:public_instance_method</span><span class="p">,</span> <span class="ss">:nil?</span><span class="p">,</span> <span class="p">:</span><span class="o">=~</span><span class="p">,</span> <span class="p">:</span><span class="o">!~</span><span class="p">,</span> <span class="ss">:eql?</span><span class="p">,</span> <span class="ss">:hash</span><span class="p">,</span> <span class="ss">:class</span><span class="p">,</span> <span class="ss">:singleton_class</span><span class="p">,</span> <span class="ss">:clone</span><span class="p">,</span> <span class="ss">:dup</span><span class="p">,</span> <span class="ss">:taint</span><span class="p">,</span> <span class="ss">:tainted?</span><span class="p">,</span> <span class="ss">:untaint</span><span class="p">,</span> <span class="ss">:untrust</span><span class="p">,</span> <span class="ss">:untrusted?</span><span class="p">,</span> <span class="ss">:trust</span><span class="p">,</span> <span class="ss">:frozen?</span><span class="p">,</span> <span class="ss">:methods</span><span class="p">,</span> <span class="ss">:singleton_methods</span><span class="p">,</span> <span class="ss">:protected_methods</span><span class="p">,</span> <span class="ss">:private_methods</span><span class="p">,</span> <span class="ss">:public_methods</span><span class="p">,</span> <span class="ss">:instance_variables</span><span class="p">,</span> <span class="ss">:instance_variable_get</span><span class="p">,</span> <span class="ss">:instance_variable_set</span><span class="p">,</span> <span class="ss">:instance_variable_defined?</span><span class="p">,</span> <span class="ss">:remove_instance_variable</span><span class="p">,</span> <span class="ss">:instance_of?</span><span class="p">,</span> <span class="ss">:kind_of?</span><span class="p">,</span> <span class="ss">:is_a?</span><span class="p">,</span> <span class="ss">:tap</span><span class="p">,</span> <span class="ss">:send</span><span class="p">,</span> <span class="ss">:public_send</span><span class="p">,</span> <span class="ss">:respond_to?</span><span class="p">,</span> <span class="ss">:extend</span><span class="p">,</span> <span class="ss">:display</span><span class="p">,</span> <span class="ss">:method</span><span class="p">,</span> <span class="ss">:public_method</span><span class="p">,</span> <span class="ss">:define_singleton_method</span><span class="p">,</span> <span class="ss">:object_id</span><span class="p">,</span> <span class="ss">:to_enum</span><span class="p">,</span> <span class="ss">:enum_for</span><span class="p">,</span> <span class="ss">:equal?</span><span class="p">,</span> <span class="p">:</span><span class="o">!</span><span class="p">,</span> <span class="p">:</span><span class="o">!=</span><span class="p">,</span> <span class="ss">:instance_eval</span><span class="p">,</span> <span class="ss">:instance_exec</span><span class="p">,</span> <span class="ss">:__send__</span><span class="p">,</span> <span class="ss">:__id__</span><span class="o">]</span>
+</code></pre></div>
+<p>接下来我们在看Class的instance<em>methods,因为Class的super</em>class是module，所以Class拥有了所有的module的instance methods。</p>
+<div class="highlight"><pre><code class="language-rb" data-lang="rb"><span class="n">irb</span><span class="p">(</span><span class="n">main</span><span class="p">):</span><span class="mo">011</span><span class="p">:</span><span class="mi">0</span><span class="o">&gt;</span> <span class="no">Class</span><span class="o">.</span><span class="n">instance_methods</span>
+<span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:allocate</span><span class="p">,</span> <span class="ss">:new</span><span class="p">,</span> <span class="ss">:superclass</span><span class="p">,</span> <span class="ss">:freeze</span><span class="p">,</span> <span class="ss">:===</span><span class="p">,</span> <span class="ss">:==</span><span class="p">,</span> <span class="ss">:&lt;=&gt;</span><span class="p">,</span> <span class="p">:</span><span class="o">&lt;</span><span class="p">,</span> <span class="p">:</span><span class="o">&lt;=</span><span class="p">,</span> <span class="ss">:&gt;</span><span class="p">,</span> <span class="ss">:&gt;=</span><span class="p">,</span> <span class="ss">:to_s</span><span class="p">,</span> <span class="ss">:inspect</span><span class="p">,</span> <span class="ss">:included_modules</span><span class="p">,</span> <span class="ss">:include?</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:ancestors</span><span class="p">,</span> <span class="ss">:instance_methods</span><span class="p">,</span> <span class="ss">:public_instance_methods</span><span class="p">,</span> <span class="ss">:protected_instance_methods</span><span class="p">,</span> <span class="ss">:private_instance_methods</span><span class="p">,</span> <span class="ss">:constants</span><span class="p">,</span> <span class="ss">:const_get</span><span class="p">,</span> <span class="ss">:const_set</span><span class="p">,</span> <span class="ss">:const_defined?</span><span class="p">,</span> <span class="ss">:const_missing</span><span class="p">,</span> <span class="ss">:class_variables</span><span class="p">,</span> <span class="ss">:remove_class_variable</span><span class="p">,</span> <span class="ss">:class_variable_get</span><span class="p">,</span> <span class="ss">:class_variable_set</span><span class="p">,</span> <span class="ss">:class_variable_defined?</span><span class="p">,</span> <span class="ss">:public_constant</span><span class="p">,</span> <span class="ss">:private_constant</span><span class="p">,</span> <span class="ss">:module_exec</span><span class="p">,</span> <span class="ss">:class_exec</span><span class="p">,</span> <span class="ss">:module_eval</span><span class="p">,</span> <span class="ss">:class_eval</span><span class="p">,</span> <span class="ss">:method_defined?</span><span class="p">,</span> <span class="ss">:public_method_defined?</span><span class="p">,</span> <span class="ss">:private_method_defined?</span><span class="p">,</span> <span class="ss">:protected_method_defined?</span><span class="p">,</span> <span class="ss">:public_class_method</span><span class="p">,</span> <span class="ss">:private_class_method</span><span class="p">,</span> <span class="ss">:autoload</span><span class="p">,</span> <span class="ss">:autoload?</span><span class="p">,</span> <span class="ss">:instance_method</span><span class="p">,</span> <span class="ss">:public_instance_method</span><span class="p">,</span> <span class="ss">:nil?</span><span class="p">,</span> <span class="p">:</span><span class="o">=~</span><span class="p">,</span> <span class="p">:</span><span class="o">!~</span><span class="p">,</span> <span class="ss">:eql?</span><span class="p">,</span> <span class="ss">:hash</span><span class="p">,</span> <span class="ss">:class</span><span class="p">,</span> <span class="ss">:singleton_class</span><span class="p">,</span> <span class="ss">:clone</span><span class="p">,</span> <span class="ss">:dup</span><span class="p">,</span> <span class="ss">:taint</span><span class="p">,</span> <span class="ss">:tainted?</span><span class="p">,</span> <span class="ss">:untaint</span><span class="p">,</span> <span class="ss">:untrust</span><span class="p">,</span> <span class="ss">:untrusted?</span><span class="p">,</span> <span class="ss">:trust</span><span class="p">,</span> <span class="ss">:frozen?</span><span class="p">,</span> <span class="ss">:methods</span><span class="p">,</span> <span class="ss">:singleton_methods</span><span class="p">,</span> <span class="ss">:protected_methods</span><span class="p">,</span> <span class="ss">:private_methods</span><span class="p">,</span> <span class="ss">:public_methods</span><span class="p">,</span> <span class="ss">:instance_variables</span><span class="p">,</span> <span class="ss">:instance_variable_get</span><span class="p">,</span> <span class="ss">:instance_variable_set</span><span class="p">,</span> <span class="ss">:instance_variable_defined?</span><span class="p">,</span> <span class="ss">:remove_instance_variable</span><span class="p">,</span> <span class="ss">:instance_of?</span><span class="p">,</span> <span class="ss">:kind_of?</span><span class="p">,</span> <span class="ss">:is_a?</span><span class="p">,</span> <span class="ss">:tap</span><span class="p">,</span> <span class="ss">:send</span><span class="p">,</span> <span class="ss">:public_send</span><span class="p">,</span> <span class="ss">:respond_to?</span><span class="p">,</span> <span class="ss">:extend</span><span class="p">,</span> <span class="ss">:display</span><span class="p">,</span> <span class="ss">:method</span><span class="p">,</span> <span class="ss">:public_method</span><span class="p">,</span> <span class="ss">:define_singleton_method</span><span class="p">,</span> <span class="ss">:object_id</span><span class="p">,</span> <span class="ss">:to_enum</span><span class="p">,</span> <span class="ss">:enum_for</span><span class="p">,</span> <span class="ss">:equal?</span><span class="p">,</span> <span class="p">:</span><span class="o">!</span><span class="p">,</span> <span class="p">:</span><span class="o">!=</span><span class="p">,</span> <span class="ss">:instance_eval</span><span class="p">,</span> <span class="ss">:instance_exec</span><span class="p">,</span> <span class="ss">:__send__</span><span class="p">,</span> <span class="ss">:__id__</span><span class="o">]</span>
+</code></pre></div>
+<p>如果我们定义一个类：</p>
+
+<p>class My
+end</p>
+
+<p>那么，这个时候My能够使用上面Class的所有instance<em>methods.
+比如 执行My.public</em>constant会返回单个的My。</p>
+
+<p>那么这个时候My的instance_methods又是哪些呢？</p>
+<div class="highlight"><pre><code class="language-rb" data-lang="rb"><span class="n">irb</span><span class="p">(</span><span class="n">main</span><span class="p">):</span><span class="mo">01</span><span class="mi">8</span><span class="p">:</span><span class="mi">0</span><span class="o">&gt;</span> <span class="no">My</span><span class="o">.</span><span class="n">instance_methods</span>
+<span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:nil?</span><span class="p">,</span> <span class="ss">:===</span><span class="p">,</span> <span class="p">:</span><span class="o">=~</span><span class="p">,</span> <span class="p">:</span><span class="o">!~</span><span class="p">,</span> <span class="ss">:eql?</span><span class="p">,</span> <span class="ss">:hash</span><span class="p">,</span> <span class="ss">:&lt;=&gt;</span><span class="p">,</span> <span class="ss">:class</span><span class="p">,</span> <span class="ss">:singleton_class</span><span class="p">,</span> <span class="ss">:clone</span><span class="p">,</span> <span class="ss">:dup</span><span class="p">,</span> <span class="ss">:taint</span><span class="p">,</span> <span class="ss">:tainted?</span><span class="p">,</span> <span class="ss">:untaint</span><span class="p">,</span> <span class="ss">:untrust</span><span class="p">,</span> <span class="ss">:untrusted?</span><span class="p">,</span> <span class="ss">:trust</span><span class="p">,</span> <span class="ss">:freeze</span><span class="p">,</span> <span class="ss">:frozen?</span><span class="p">,</span> <span class="ss">:to_s</span><span class="p">,</span> <span class="ss">:inspect</span><span class="p">,</span> <span class="ss">:methods</span><span class="p">,</span> <span class="ss">:singleton_methods</span><span class="p">,</span> <span class="ss">:protected_methods</span><span class="p">,</span> <span class="ss">:private_methods</span><span class="p">,</span> <span class="ss">:public_methods</span><span class="p">,</span> <span class="ss">:instance_variables</span><span class="p">,</span> <span class="ss">:instance_variable_get</span><span class="p">,</span> <span class="ss">:instance_variable_set</span><span class="p">,</span> <span class="ss">:instance_variable_defined?</span><span class="p">,</span> <span class="ss">:remove_instance_variable</span><span class="p">,</span> <span class="ss">:instance_of?</span><span class="p">,</span> <span class="ss">:kind_of?</span><span class="p">,</span> <span class="ss">:is_a?</span><span class="p">,</span> <span class="ss">:tap</span><span class="p">,</span> <span class="ss">:send</span><span class="p">,</span> <span class="ss">:public_send</span><span class="p">,</span> <span class="ss">:respond_to?</span><span class="p">,</span> <span class="ss">:extend</span><span class="p">,</span> <span class="ss">:display</span><span class="p">,</span> <span class="ss">:method</span><span class="p">,</span> <span class="ss">:public_method</span><span class="p">,</span> <span class="ss">:define_singleton_method</span><span class="p">,</span> <span class="ss">:object_id</span><span class="p">,</span> <span class="ss">:to_enum</span><span class="p">,</span> <span class="ss">:enum_for</span><span class="p">,</span> <span class="ss">:==</span><span class="p">,</span> <span class="ss">:equal?</span><span class="p">,</span> <span class="p">:</span><span class="o">!</span><span class="p">,</span> <span class="p">:</span><span class="o">!=</span><span class="p">,</span> <span class="ss">:instance_eval</span><span class="p">,</span> <span class="ss">:instance_exec</span><span class="p">,</span> <span class="ss">:__send__</span><span class="p">,</span> <span class="ss">:__id__</span><span class="o">]</span>
+</code></pre></div>
+<p>其实这里的My的instance methods全部来源于它的super_class也就是Object的instance methods.</p>
+
+<p>同时My也是个Class，所以My的methods对应的是Class的instance_methods.</p>
+<div class="highlight"><pre><code class="language-rb" data-lang="rb"><span class="n">irb</span><span class="p">(</span><span class="n">main</span><span class="p">):</span><span class="mo">007</span><span class="p">:</span><span class="mi">0</span><span class="o">&gt;</span> <span class="no">My</span><span class="o">.</span><span class="n">methods</span>
+<span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:allocate</span><span class="p">,</span> <span class="ss">:new</span><span class="p">,</span> <span class="ss">:superclass</span><span class="p">,</span> <span class="ss">:freeze</span><span class="p">,</span> <span class="ss">:===</span><span class="p">,</span> <span class="ss">:==</span><span class="p">,</span> <span class="ss">:&lt;=&gt;</span><span class="p">,</span> <span class="p">:</span><span class="o">&lt;</span><span class="p">,</span> <span class="p">:</span><span class="o">&lt;=</span><span class="p">,</span> <span class="ss">:&gt;</span><span class="p">,</span> <span class="ss">:&gt;=</span><span class="p">,</span> <span class="ss">:to_s</span><span class="p">,</span> <span class="ss">:inspect</span><span class="p">,</span> <span class="ss">:included_modules</span><span class="p">,</span> <span class="ss">:include?</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:ancestors</span><span class="p">,</span> <span class="ss">:instance_methods</span><span class="p">,</span> <span class="ss">:public_instance_methods</span><span class="p">,</span> <span class="ss">:protected_instance_methods</span><span class="p">,</span> <span class="ss">:private_instance_methods</span><span class="p">,</span> <span class="ss">:constants</span><span class="p">,</span> <span class="ss">:const_get</span><span class="p">,</span> <span class="ss">:const_set</span><span class="p">,</span> <span class="ss">:const_defined?</span><span class="p">,</span> <span class="ss">:const_missing</span><span class="p">,</span> <span class="ss">:class_variables</span><span class="p">,</span> <span class="ss">:remove_class_variable</span><span class="p">,</span> <span class="ss">:class_variable_get</span><span class="p">,</span> <span class="ss">:class_variable_set</span><span class="p">,</span> <span class="ss">:class_variable_defined?</span><span class="p">,</span> <span class="ss">:public_constant</span><span class="p">,</span> <span class="ss">:private_constant</span><span class="p">,</span> <span class="ss">:module_exec</span><span class="p">,</span> <span class="ss">:class_exec</span><span class="p">,</span> <span class="ss">:module_eval</span><span class="p">,</span> <span class="ss">:class_eval</span><span class="p">,</span> <span class="ss">:method_defined?</span><span class="p">,</span> <span class="ss">:public_method_defined?</span><span class="p">,</span> <span class="ss">:private_method_defined?</span><span class="p">,</span> <span class="ss">:protected_method_defined?</span><span class="p">,</span> <span class="ss">:public_class_method</span><span class="p">,</span> <span class="ss">:private_class_method</span><span class="p">,</span> <span class="ss">:autoload</span><span class="p">,</span> <span class="ss">:autoload?</span><span class="p">,</span> <span class="ss">:instance_method</span><span class="p">,</span> <span class="ss">:public_instance_method</span><span class="p">,</span> <span class="ss">:nil?</span><span class="p">,</span> <span class="p">:</span><span class="o">=~</span><span class="p">,</span> <span class="p">:</span><span class="o">!~</span><span class="p">,</span> <span class="ss">:eql?</span><span class="p">,</span> <span class="ss">:hash</span><span class="p">,</span> <span class="ss">:class</span><span class="p">,</span> <span class="ss">:singleton_class</span><span class="p">,</span> <span class="ss">:clone</span><span class="p">,</span> <span class="ss">:dup</span><span class="p">,</span> <span class="ss">:taint</span><span class="p">,</span> <span class="ss">:tainted?</span><span class="p">,</span> <span class="ss">:untaint</span><span class="p">,</span> <span class="ss">:untrust</span><span class="p">,</span> <span class="ss">:untrusted?</span><span class="p">,</span> <span class="ss">:trust</span><span class="p">,</span> <span class="ss">:frozen?</span><span class="p">,</span> <span class="ss">:methods</span><span class="p">,</span> <span class="ss">:singleton_methods</span><span class="p">,</span> <span class="ss">:protected_methods</span><span class="p">,</span> <span class="ss">:private_methods</span><span class="p">,</span> <span class="ss">:public_methods</span><span class="p">,</span> <span class="ss">:instance_variables</span><span class="p">,</span> <span class="ss">:instance_variable_get</span><span class="p">,</span> <span class="ss">:instance_variable_set</span><span class="p">,</span> <span class="ss">:instance_variable_defined?</span><span class="p">,</span> <span class="ss">:remove_instance_variable</span><span class="p">,</span> <span class="ss">:instance_of?</span><span class="p">,</span> <span class="ss">:kind_of?</span><span class="p">,</span> <span class="ss">:is_a?</span><span class="p">,</span> <span class="ss">:tap</span><span class="p">,</span> <span class="ss">:send</span><span class="p">,</span> <span class="ss">:public_send</span><span class="p">,</span> <span class="ss">:respond_to?</span><span class="p">,</span> <span class="ss">:extend</span><span class="p">,</span> <span class="ss">:display</span><span class="p">,</span> <span class="ss">:method</span><span class="p">,</span> <span class="ss">:public_method</span><span class="p">,</span> <span class="ss">:define_singleton_method</span><span class="p">,</span> <span class="ss">:object_id</span><span class="p">,</span> <span class="ss">:to_enum</span><span class="p">,</span> <span class="ss">:enum_for</span><span class="p">,</span> <span class="ss">:gem</span><span class="p">,</span> <span class="ss">:equal?</span><span class="p">,</span> <span class="p">:</span><span class="o">!</span><span class="p">,</span> <span class="p">:</span><span class="o">!=</span><span class="p">,</span> <span class="ss">:instance_eval</span><span class="p">,</span> <span class="ss">:instance_exec</span><span class="p">,</span> <span class="ss">:__send__</span><span class="p">,</span> <span class="ss">:__id__</span><span class="o">]</span>
+<span class="n">irb</span><span class="p">(</span><span class="n">main</span><span class="p">):</span><span class="mo">00</span><span class="mi">8</span><span class="p">:</span><span class="mi">0</span><span class="o">&gt;</span> <span class="no">Class</span><span class="o">.</span><span class="n">instance_methods</span>
+<span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:allocate</span><span class="p">,</span> <span class="ss">:new</span><span class="p">,</span> <span class="ss">:superclass</span><span class="p">,</span> <span class="ss">:freeze</span><span class="p">,</span> <span class="ss">:===</span><span class="p">,</span> <span class="ss">:==</span><span class="p">,</span> <span class="ss">:&lt;=&gt;</span><span class="p">,</span> <span class="p">:</span><span class="o">&lt;</span><span class="p">,</span> <span class="p">:</span><span class="o">&lt;=</span><span class="p">,</span> <span class="ss">:&gt;</span><span class="p">,</span> <span class="ss">:&gt;=</span><span class="p">,</span> <span class="ss">:to_s</span><span class="p">,</span> <span class="ss">:inspect</span><span class="p">,</span> <span class="ss">:included_modules</span><span class="p">,</span> <span class="ss">:include?</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:ancestors</span><span class="p">,</span> <span class="ss">:instance_methods</span><span class="p">,</span> <span class="ss">:public_instance_methods</span><span class="p">,</span> <span class="ss">:protected_instance_methods</span><span class="p">,</span> <span class="ss">:private_instance_methods</span><span class="p">,</span> <span class="ss">:constants</span><span class="p">,</span> <span class="ss">:const_get</span><span class="p">,</span> <span class="ss">:const_set</span><span class="p">,</span> <span class="ss">:const_defined?</span><span class="p">,</span> <span class="ss">:const_missing</span><span class="p">,</span> <span class="ss">:class_variables</span><span class="p">,</span> <span class="ss">:remove_class_variable</span><span class="p">,</span> <span class="ss">:class_variable_get</span><span class="p">,</span> <span class="ss">:class_variable_set</span><span class="p">,</span> <span class="ss">:class_variable_defined?</span><span class="p">,</span> <span class="ss">:public_constant</span><span class="p">,</span> <span class="ss">:private_constant</span><span class="p">,</span> <span class="ss">:module_exec</span><span class="p">,</span> <span class="ss">:class_exec</span><span class="p">,</span> <span class="ss">:module_eval</span><span class="p">,</span> <span class="ss">:class_eval</span><span class="p">,</span> <span class="ss">:method_defined?</span><span class="p">,</span> <span class="ss">:public_method_defined?</span><span class="p">,</span> <span class="ss">:private_method_defined?</span><span class="p">,</span> <span class="ss">:protected_method_defined?</span><span class="p">,</span> <span class="ss">:public_class_method</span><span class="p">,</span> <span class="ss">:private_class_method</span><span class="p">,</span> <span class="ss">:autoload</span><span class="p">,</span> <span class="ss">:autoload?</span><span class="p">,</span> <span class="ss">:instance_method</span><span class="p">,</span> <span class="ss">:public_instance_method</span><span class="p">,</span> <span class="ss">:nil?</span><span class="p">,</span> <span class="p">:</span><span class="o">=~</span><span class="p">,</span> <span class="p">:</span><span class="o">!~</span><span class="p">,</span> <span class="ss">:eql?</span><span class="p">,</span> <span class="ss">:hash</span><span class="p">,</span> <span class="ss">:class</span><span class="p">,</span> <span class="ss">:singleton_class</span><span class="p">,</span> <span class="ss">:clone</span><span class="p">,</span> <span class="ss">:dup</span><span class="p">,</span> <span class="ss">:taint</span><span class="p">,</span> <span class="ss">:tainted?</span><span class="p">,</span> <span class="ss">:untaint</span><span class="p">,</span> <span class="ss">:untrust</span><span class="p">,</span> <span class="ss">:untrusted?</span><span class="p">,</span> <span class="ss">:trust</span><span class="p">,</span> <span class="ss">:frozen?</span><span class="p">,</span> <span class="ss">:methods</span><span class="p">,</span> <span class="ss">:singleton_methods</span><span class="p">,</span> <span class="ss">:protected_methods</span><span class="p">,</span> <span class="ss">:private_methods</span><span class="p">,</span> <span class="ss">:public_methods</span><span class="p">,</span> <span class="ss">:instance_variables</span><span class="p">,</span> <span class="ss">:instance_variable_get</span><span class="p">,</span> <span class="ss">:instance_variable_set</span><span class="p">,</span> <span class="ss">:instance_variable_defined?</span><span class="p">,</span> <span class="ss">:remove_instance_variable</span><span class="p">,</span> <span class="ss">:instance_of?</span><span class="p">,</span> <span class="ss">:kind_of?</span><span class="p">,</span> <span class="ss">:is_a?</span><span class="p">,</span> <span class="ss">:tap</span><span class="p">,</span> <span class="ss">:send</span><span class="p">,</span> <span class="ss">:public_send</span><span class="p">,</span> <span class="ss">:respond_to?</span><span class="p">,</span> <span class="ss">:extend</span><span class="p">,</span> <span class="ss">:display</span><span class="p">,</span> <span class="ss">:method</span><span class="p">,</span> <span class="ss">:public_method</span><span class="p">,</span> <span class="ss">:define_singleton_method</span><span class="p">,</span> <span class="ss">:object_id</span><span class="p">,</span> <span class="ss">:to_enum</span><span class="p">,</span> <span class="ss">:enum_for</span><span class="p">,</span> <span class="ss">:gem</span><span class="p">,</span> <span class="ss">:equal?</span><span class="p">,</span> <span class="p">:</span><span class="o">!</span><span class="p">,</span> <span class="p">:</span><span class="o">!=</span><span class="p">,</span> <span class="ss">:instance_eval</span><span class="p">,</span> <span class="ss">:instance_exec</span><span class="p">,</span> <span class="ss">:__send__</span><span class="p">,</span> <span class="ss">:__id__</span><span class="o">]</span>
+</code></pre></div>
+    <nav class="article-previous fn-clear">
+        
+        <a class="prev" href="/blog//odoq/2015/07/23/ODOQ%20-%20ruby%E4%B8%AD%E7%9A%84%E9%97%AD%E5%8C%85.html" rel="bookmark">&laquo;&nbsp;One Day One Question -...</a>
+        
+        
+        <a class="next" href="/blog//2015/07/24/ODOQ%20-%20%E7%90%86%E8%A7%A3map%E4%B8%AD%E7%9A%84&.html" rel="bookmark">Odoq   理解map中的&&nbsp;&raquo;</a>
+        
+    </nav>
+    <div class="comment">
+        
+            
+        
+    </div>
+</div>
+
+
+                    
+                        <div id="disqus_thread"></div>
+ <script type="text/javascript">
+     /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+     var disqus_shortname = 'minixalpha'; // required: replace example with your forum shortname
+
+     /* * * DON'T EDIT BELOW THIS LINE * * */
+     (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+ </script>
+ <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+                    
+                </div>
+                <div class="aside">
+                    <div class="aside-contact">
+                        <h4 class="title">About me</h4>
+                        <div class="det fn-clear">
+                            <div class="det-image">
+                                <img src="https://avatars.githubusercontent.com/soulspirit1229" />
+                            </div>
+                            <div class="det-text">
+                                <p>我是 SoulSpirit</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="aside-item">
+                        <h4 class="title">Recent Posts</h4>
+                        <ul class="list">
+                            
+                                <li><a href="/blog/reading%20ruby/2015/07/26/Reading%20Ruby%20-%20Class%20Methods.html" title="Reading Ruby - Class Methods" rel="bookmark">Reading Ruby - Class Methods</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20Validation.html" title="Reading Rails - Rails Validation" rel="bookmark">Reading Rails - Rails Validation</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20ActiveSupport%20delegation.html" title="Reading Rails - ActiveSupport delegation" rel="bookmark">Reading Rails - ActiveSupport delegation</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20ActiveRecord.html" title="Reading Rails - Active Record" rel="bookmark">Reading Rails - Active Record</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20ActiveModel%20Callbacks.html" title="Reading Rails - Active Model Callbacks" rel="bookmark">Reading Rails - Active Model Callbacks</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20Active%20Model%20Validation.html" title="Reading Rails - Active Model Validation" rel="bookmark">Reading Rails - Active Model Validation</a></li>
+                            
+                        </ul>
+                    </div>
+
+                    <div class="aside-item">
+                        <h4 class="title">Links</h4>
+                        <ul class="list">
+                            
+                                
+                                    
+                                    <li><a href="http://www.zhanxin.info" title="掌心" target="_blank">掌心</a></li>
+                                    
+                                    <li><a href="http://jekyllrb.com" title="Jekyll" target="_blank">Jekyll</a></li>
+                                    
+                                    <li><a href="http://www.zhanxin.info/themes.html" title="Jekyll Theme" target="_blank">Jekyll Theme</a></li>
+                                    
+                                
+                            
+                                
+                            
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="foot">
+            <div class="footer">
+                <p>Copyright 2013. All rights reserved. Powered by <a href="http://jekyllrb.com" target="_blank">Jekyll</a>, Design by <a href="http://www.zhanxin.info" target="_blank">zhanxin.info</a>.</p>
+            </div>
+        </div>
+        <script type="text/javascript" src="https://lib.sinaapp.com/js/jquery/1.8.3/jquery.min.js"></script>
+        
+    </body>
+</html>

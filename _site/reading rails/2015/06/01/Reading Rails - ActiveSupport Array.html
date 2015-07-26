@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--
+         **
+         * Auther:      掌心
+         * Contact:     http://www.zhanxin.info
+         * Create:      2013.08.10
+         * Theme Name:  Kunka
+         * Authorize:   BY-NC-SA
+         **
+        -->
+        <meta charset="utf-8">
+        <title>Reading Rails - ActiveSupport Array - 逍遥游</title>
+        <!-- meta -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="generator" content="Jekyll" />
+        <meta name="author" content="soulspirit" />
+        <meta name="description" content="大知闲闲，小知间间；大言炎炎，小言詹詹。" />
+        <meta name="keywords" content="" />
+        <!-- atom -->
+        <link rel="alternate" type="application/atom+xml" title="Recent Entries" href="/blog/atom.xml" />
+        <link rel="shortcut icon" href="http://jekyllrb.com/favicon.png" type="image/x-icon" />
+        <!-- font-awesome -->
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Spirax' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/blog/themes/kunka/css/syntax.css">
+        <link rel="stylesheet" href="/blog/themes/kunka/css/main.css">
+        
+    </head>
+    <body>
+        <div class="head fn-clear">
+            <div class="header">
+                <h1 class="logo">
+                    <a href="/blog/"><i class="icon-anchor"></i></a>
+                </h1>
+                <nav class="nav">
+                    <ul>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/index.html">
+                                首页
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/categories.html">
+                                分类目录
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/archives.html">
+                                文章归档
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/contact.html">
+                                联系我
+                            </a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li class="nav-item ">
+                            <a href="/blog/navigations/links.html">
+                                友情链接
+                            </a>
+                            
+                        </li>
+                        
+                    </ul>
+                </nav>
+                <div class="follow">
+                    
+                    <a href="/atom.xml" target="_blank"><i class="icon-rss"></i></a>
+                    
+                    <a href="http://weibo.com" target="_blank"><i class="icon-weibo"></i></a>
+                    
+                    <a href="http://renren.com" target="_blank"><i class="icon-renren"></i></a>
+                    
+                    <a href="http://github.com" target="_blank"><i class="icon-github-alt"></i></a>
+                    
+                    <a href="http://twitter.com" target="_blank"><i class="icon-twitter"></i></a>
+                    
+                    <a href="http://google.com" target="_blank"><i class="icon-google-plus"></i></a>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="contain fn-clear">
+            <div class="container fn-clear">
+                <div class="main">
+                    
+    <div class="article article-post">
+    <h2 class="title">Reading Rails - ActiveSupport Array</h2>
+    <div class="info">
+        <span class="info-title"><i class="icon-calendar"></i> Published: </span>
+        <span class="info-date">01 Jun 2015</span>
+        <span class="info-title"><i class="icon-folder-open"></i> Category: </span>
+        <span class="info-link"><a href="/StrayBirds/navigations/categories.html#Reading Rails-ref" >Reading Rails</a></span>
+    </div>
+    <h1>Reading Rails - ActiveSupport Array</h1>
+
+<p>首先我们来看core<em>ext/array下面的文件
+在access中比较简单，方法如下
+from
+to
+without
+second
+third
+fourth
+fifth
+forty</em>two</p>
+
+<h2>to_sentence</h2>
+
+<p>接下来，我们来看conversions.rb
+1 to<em>sentence的用法
+options.assert</em>valid<em>keys(:words</em>connector, :two<em>words</em>connector, :last<em>word</em>connector, :locale)
+Hash的assert<em>valid</em>keys是core<em>ext中引入的，可以进行校验参数
+  def assert</em>valid<em>keys(*valid</em>keys)
+    valid<em>keys.flatten!
+    each</em>key do |k|
+      unless valid<em>keys.include?(k)
+        raise ArgumentError.new(&quot;Unknown key: #{k.inspect}. Valid keys are: #{valid</em>keys.map(&amp;:inspect).join(
+valid<em>keys是个Array，Array中的flattern的语法
+a = [ 1, 2, [3, [4, 5] ] ]
+a.flatten!   #=&gt; [1, 2, 3, 4, 5]
+所以我们看assert</em>valid<em>keys中如果valid</em>keys中不能包含Hash中的key，那么就会抛出ArgumentError。
+如果valid<em>keys是个空数组，那么不会进入到each</em>key的循环中，所以
+{}.assert<em>valid</em>keys(:name,:years,:age) 为true
+接下来就是取I18n中对应的words_connector，然后进行拼装字符串.</p>
+
+<h2>to<em>formatted</em>s</h2>
+
+<p>2 to<em>formatted</em>s
+  def to<em>formatted</em>s(format = :default)
+    case format
+    when :db
+      if empty?
+        &#39;null&#39;
+      else
+        collect(&amp;:id).join(&#39;,&#39;)
+      end
+    else
+      to<em>default</em>s
+    end
+  end
+  alias<em>method :to</em>default<em>s, :to</em>s
+  alias<em>method :to</em>s, :to<em>formatted</em>s</p>
+
+<p>有两个知识点，
+A首先这个方法extends了Array的to<em>s方法
+通过使用alias</em>method，所以可以用[].to<em>s(:db)的方法
+B alias</em>method
+alias跟alias_method
+alias(p1,p2)的第一个参数是新方法，第二个参数是原来的方法，它的本意就是让新方法代替原来的方法。</p>
+
+<p>class Microwave
+  def on
+    puts &quot;The microwave is on&quot;
+  end
+  alias :start :on
+end
+m = Microwave.new
+m.start # same as m.on</p>
+
+<p>alias_method跟alias相似，参数是new method name, old method name，中间用逗号隔开</p>
+
+<h2>to_xml</h2>
+
+<h2>extract_options!</h2>
+
+<p>def extract<em>options!
+    if last.is</em>a?(Hash) &amp;&amp; last.extractable_options?
+      pop
+    else
+      {}
+    end
+  end</p>
+
+<p>Array的pop method是将最后一个元素pop out。所以extract_options有两个结果：
+A：最后得到的结果是最后一个hash元素。
+B：同时Array本身的options也只剩下前面的元素。</p>
+
+<h2>in_groups_of</h2>
+
+<p>def in<em>groups</em>of(number, fill<em>with = nil)
+    if number.to</em>i &lt;= 0
+      raise ArgumentError,
+        &quot;Group size must be a positive integer, was #{number.inspect}&quot;
+    end
+    if fill<em>with == false
+      collection = self
+    else
+      # size % number gives how many extra we have;
+      # subtracting from number gives how many to add;
+      # modulo number ensures we don&#39;t add group of just fill.
+      padding = (number - size % number) % number
+      collection = dup.concat(Array.new(padding, fill</em>with))
+    end
+    if block<em>given?
+      collection.each</em>slice(number) { |slice| yield(slice) }
+    else
+      collection.each<em>slice(number).to</em>a
+    end
+  end
+这个方法是在Enumerable的each<em>slice的基础上进行封装的。默认fill</em>with是nil的值，所以不传fill<em>with的时候，slice中会自动用nil补齐，如果不想使用fill</em>with=false</p>
+
+<p>A dup的使用
+    dup是Object的method，是shallow copy</p>
+
+<p>B concat的使用
+concat是两个数组合并</p>
+
+<p>C each<em>slice是Enumerable的方法，each</em>slice的返回结果是Enumrator</p>
+
+<p>D block_given?的使用，使得语法更具有灵活性</p>
+
+<h2>in groups</h2>
+
+<h2>split</h2>
+
+<p>def split(value = nil)
+    if block_given?
+      inject([[]]) do |results, element|
+        if yield(element)
+          results &lt;&lt; []
+        else
+          results.last &lt;&lt; element
+        end
+        results
+      end
+    else
+      results, arr = [[]], self.dup
+      until arr.empty?
+        if (idx = arr.index(value))
+          results.last.concat(arr.shift(idx))
+          arr.shift
+          results &lt;&lt; []
+        else
+          results.last.concat(arr.shift(arr.size))
+        end
+      end
+      results
+    end
+  end</p>
+
+<p>A shift的使用，二维数组的创建
+二维数组的创建[[]]</p>
+
+<p>arr.shift有两个作用
+a. 返回的数组是左移的数组
+b. arr自身只留下左移之后的数组</p>
+
+<p>B block_given的使用</p>
+
+<h2>inquiry</h2>
+
+<h2>prepend<em>and</em>append</h2>
+
+<p>class Array
+  # The human way of thinking about adding stuff to the end of a list is with append.
+  alias<em>method :append,  :&lt;&lt;
+  # The human way of thinking about adding stuff to the beginning of a list is with prepend.
+  alias</em>method :prepend, :unshift
+end</p>
+
+<p>通过使用alias_method实现方法的重命名</p>
+
+<h2>wrap</h2>
+
+<p>def self.wrap(object)
+    if object.nil?
+      []
+    elsif object.respond<em>to?(:to</em>ary)
+      object.to_ary || [object]
+    else
+      [object]
+    end
+  end</p>
+
+<p>A respond_to?的用法
+判断该方法是否有
+B 在rails中使用[account: [profile: :name]]
+[{:account=&gt;[{:profile=&gt;:name}]}]</p>
+
+    <nav class="article-previous fn-clear">
+        
+        <a class="prev" href="/blog//reading%20rails/2015/05/29/Reading%20Rails%20Railties%20Command.html" rel="bookmark">&laquo;&nbsp;Reading Rails</a>
+        
+        
+        <a class="next" href="/blog//reading%20rails/2015/06/02/Reading%20Rails%20-%20ActiveSupport%20Autoload.html" rel="bookmark">Reading Rails&nbsp;&raquo;</a>
+        
+    </nav>
+    <div class="comment">
+        
+            
+        
+    </div>
+</div>
+
+
+                    
+                        <div id="disqus_thread"></div>
+ <script type="text/javascript">
+     /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+     var disqus_shortname = 'minixalpha'; // required: replace example with your forum shortname
+
+     /* * * DON'T EDIT BELOW THIS LINE * * */
+     (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+ </script>
+ <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+                    
+                </div>
+                <div class="aside">
+                    <div class="aside-contact">
+                        <h4 class="title">About me</h4>
+                        <div class="det fn-clear">
+                            <div class="det-image">
+                                <img src="https://avatars.githubusercontent.com/soulspirit1229" />
+                            </div>
+                            <div class="det-text">
+                                <p>我是 SoulSpirit</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="aside-item">
+                        <h4 class="title">Recent Posts</h4>
+                        <ul class="list">
+                            
+                                <li><a href="/blog/reading%20ruby/2015/07/26/Reading%20Ruby%20-%20Class%20Methods.html" title="Reading Ruby - Class Methods" rel="bookmark">Reading Ruby - Class Methods</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20Validation.html" title="Reading Rails - Rails Validation" rel="bookmark">Reading Rails - Rails Validation</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20ActiveSupport%20delegation.html" title="Reading Rails - ActiveSupport delegation" rel="bookmark">Reading Rails - ActiveSupport delegation</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20ActiveRecord.html" title="Reading Rails - Active Record" rel="bookmark">Reading Rails - Active Record</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20ActiveModel%20Callbacks.html" title="Reading Rails - Active Model Callbacks" rel="bookmark">Reading Rails - Active Model Callbacks</a></li>
+                            
+                                <li><a href="/blog/reading%20rails/2015/07/26/Reading%20Rails%20-%20Active%20Model%20Validation.html" title="Reading Rails - Active Model Validation" rel="bookmark">Reading Rails - Active Model Validation</a></li>
+                            
+                        </ul>
+                    </div>
+
+                    <div class="aside-item">
+                        <h4 class="title">Links</h4>
+                        <ul class="list">
+                            
+                                
+                                    
+                                    <li><a href="http://www.zhanxin.info" title="掌心" target="_blank">掌心</a></li>
+                                    
+                                    <li><a href="http://jekyllrb.com" title="Jekyll" target="_blank">Jekyll</a></li>
+                                    
+                                    <li><a href="http://www.zhanxin.info/themes.html" title="Jekyll Theme" target="_blank">Jekyll Theme</a></li>
+                                    
+                                
+                            
+                                
+                            
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="foot">
+            <div class="footer">
+                <p>Copyright 2013. All rights reserved. Powered by <a href="http://jekyllrb.com" target="_blank">Jekyll</a>, Design by <a href="http://www.zhanxin.info" target="_blank">zhanxin.info</a>.</p>
+            </div>
+        </div>
+        <script type="text/javascript" src="https://lib.sinaapp.com/js/jquery/1.8.3/jquery.min.js"></script>
+        
+    </body>
+</html>

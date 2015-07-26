@@ -28,10 +28,10 @@ String === "s" # true: "s" 是一个字符串类的实例
 ~~~
 
 ## equal?
-equal? method不应该被overridden，它时用来校验两个Object是否相等。
+equal? method不应该被overridden，它一般校验内存地址是否相同
 
 ## eql?
-eql? method是用来比较两个值的hash key是否相等。他是用在Hash中用来校验key的相等性。跟 == 有点区别。
+eql? method是用来比较两个值的hash key是否相等。他是用在Hash中用来校验key的相等性。跟 == 有点区别。但在String时，又一样，主要看怎么覆盖方法的。
 
 ~~~rb
 1 == 1.0     #=> true
