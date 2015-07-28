@@ -58,3 +58,126 @@ cache_key的生成是分情况，如果传入了timestamp，就会根据timestam
 接下来会讲timestamp转换成字符串，cache_timestamp_format默认为：:nsec。
 这样就生成了一个完整的cache_key.
 
+## MemoryStore
+
+我们先来看下memory store的成员变量
+
+~~~rb
+def initialize(options = nil)
+  options ||= {}
+  super(options)
+  @data = {}  --存放的健值对，key: :entry
+  @key_access = {} 
+  @max_size = options[:size] || 32.megabytes --最大内存值32M
+  @max_prune_time = options[:max_prune_time] || 2 --
+  @cache_size = 0 --cache的容量大小
+  @monitor = Monitor.new --同步
+  @pruning = false --是否在执行删除cache
+end
+~~~
+
+memory中存放entry，我们看一个age:12存放的entry是：
+
+ActiveSupport::Cache::Entry:0x007fc9065b3d68 @created_at=1438003969.271652, @expires_in=nil, @value=12
+
+每一个entry都有大小，上面这个entry的容量大小是4，只有当容量达到33554432时，memorystore才会满。粗略的估计一下，可以容纳838万个这么大小的entry。
+
+当我们写入一个value时，Rails.cache.write 'age', 12
+那么最重要的方法是write_entry.
+
+~~~rb
+def write_entry(key, entry, options) # :nodoc:
+  entry.dup_value!
+  synchronize do
+    old_entry = @data[key]
+    return false if @data.key?(key) && options[:unless_exist]
+    if old_entry
+      @cache_size -= (old_entry.size - entry.size)
+    else
+      @cache_size += cached_size(key, entry)
+    end
+    @key_access[key] = Time.now.to_f
+    @data[key] = entry
+    prune(@max_size * 0.75, @max_prune_time) if @cache_size > @max_size
+    true
+  end
+end
+~~~
+
+我们看到如果cache size大于Max size的时候，会执行prune方法。prune方法会将memory删减到最大值的0.75倍。
+
+~~~rb
+# To ensure entries fit within the specified memory prune the cache by removing the least
+# recently accessed entries.
+def prune(target_size, max_time = nil)
+  return if pruning?
+  @pruning = true
+  begin
+    start_time = Time.now
+    cleanup
+    instrument(:prune, target_size, :from => @cache_size) do
+      keys = synchronize{ @key_access.keys.sort{|a,b| @key_access[a].to_f <=> @key_access[b].to_f} }
+      keys.each do |key|
+        delete_entry(key, options)
+        return if @cache_size <= target_size || (max_time && Time.now - start_time > max_time)
+      end
+    end
+  ensure
+    @pruning = false
+  end
+end
+~~~
+
+它的删除策略是：根据你创建的cache的时间长短。会把创建比较早的删掉。
+
+这个类中使用了个同步用法。
+
+~~~rb
+      def synchronize(&block) # :nodoc:
+        @monitor.synchronize(&block)
+      end
+~~~
+
+## FileStore
+
+filestore中主要的write_entry方法。
+
+~~~rb
+def write_entry(key, entry, options)
+  file_name = key_file_path(key)
+  return false if options[:unless_exist] && File.exist?(file_name)
+  ensure_cache_path(File.dirname(file_name))
+  File.atomic_write(file_name, cache_path) {|f| Marshal.dump(entry, f)}
+  true
+end
+~~~
+
+### atomic_write
+atomic_write是为了让你的文件不至于在还没写好的时候就被其他线程操作。
+
+### Marshal
+
+activesupprt 中的marshal是在原生ruby的marshal上做了扩展。
+
+~~~rb
+module Marshal
+  class << self
+    def load_with_autoloading(source)
+      load_without_autoloading(source)
+    rescue ArgumentError, NameError => exc
+      if exc.message.match(%r|undefined class/module (.+)|)
+        # try loading the class/module
+        $1.constantize
+        # if it is a IO we need to go back to read the object
+        source.rewind if source.respond_to?(:rewind)
+        retry
+      else
+        raise exc
+      end
+    end
+
+    alias_method_chain :load, :autoloading
+  end
+end
+
+~~~
