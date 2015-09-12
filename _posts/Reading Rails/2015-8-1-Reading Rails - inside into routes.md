@@ -1,6 +1,7 @@
 # Reading Rails - inside into routes
 
 ## 前言
+今天刚去看了破风，记录两句话： 风在前，无惧。但同时人生不应该为了赢而搞乱自己。
 
 ## Tips
 先介绍个小技巧，当我们在判断一个路径是否能match到我们自己编写的controller的时候，我们可以使用下面的方法：
@@ -18,13 +19,87 @@ Route的代码并不好读，第一个原因是相比其他的模块，route的�
 1. routes.rb是怎么起作用的
 2. request请求又是如何与controller相匹配的
 
-
-我们会研究的问题：routes是如何产生的，不仅仅是我们定义的路径，还包括第三方gem的路径是如何加载的。
-
-
 ### Routes的产生
+首先来看个例子，用代码来实现这样的输入输出
 
-以最简单的routes.rb为例。
+~~~rb
+# hash = config do
+#   namespace :users do
+#     config :session_timeout, 30
+#     config :minimum_password_length, 20
+#     namespace :nickname do
+#             config :default, "Nick"
+#             config :max_length, 50
+#     end
+#   end
+# end
+#
+# { “users.session_timeout”: 30, “users.minimum_password_length”: 20, “users.nickname.max_length”: 50, “users.nickname.default”: “Nick”}
+~~~
+
+结果如下：
+
+~~~rb
+def config(&block)
+  eval_block(&block)
+end
+
+def eval_block(&block)
+  mapper = Mapper.new
+  mapper.instance_exec(&block)
+  p mapper.config_hash
+end
+
+class Scope
+
+  def initialize(name,parent,scope_level)
+    @name = name.to_s
+    @parent = parent
+    @scope_level = scope_level
+  end
+
+  def name
+    if @parent && @parent.name != ""
+      "#{@parent.name}.#{@name}"
+    else
+      @name
+    end
+  end
+end
+
+class Mapper
+
+  attr_accessor :config_hash
+
+  def initialize
+    @scope = Scope.new("",nil,"")
+    @config_hash = {}
+  end
+
+  def namespace(name, &block)
+    old, new_scope = @scope, Scope.new(name, @scope, "namespace")
+    @scope = new_scope
+    # apply_behaiver_for(name, new_scope, &block)
+
+    yield if block_given?
+    self
+  ensure
+    @scope = old
+  end
+
+  def config(*options)
+    merge_config_name(options[0], options[1])
+  end
+
+  def merge_config_name(key,value)
+    config_hash[@scope.name + "." + key.to_s] = value
+  end
+end
+~~~
+
+
+大家也发现了这个跟routes的实现很像，要想理解Rails中Routes的生成，首先这个看懂就比较好深入的了解routes的实现原理了。
+我们以最简单的routes.rb为例来开始分析：
 
 ~~~rb
 Rails.application.routes.draw do
@@ -54,15 +129,15 @@ def draw(&block)
   nil
 end
 
-      def eval_block(block)
-        ...
-        mapper = Mapper.new(self)
-        if default_scope
-          mapper.with_default_scope(default_scope, &block)
-        else
-          mapper.instance_exec(&block)
-        end
-      end
+def eval_block(block)
+  ...
+  mapper = Mapper.new(self)
+  if default_scope
+    mapper.with_default_scope(default_scope, &block)
+  else
+    mapper.instance_exec(&block)
+  end
+end
 ~~~
 draw方法中比较重要的是eval\_block方法。而例子中 root to: 'home#index' 作为block方法传入到这个方法中。eval\_block(block)的这句代码带入了routing中最重要的Mapper类。eval\_block方法最终执行的是mapper.instance_exec(&block)，定义在routes.rb中的方法是由Mapper这个类来负责解析。我们来看看这个重要的Mapper类。
 
@@ -84,7 +159,7 @@ module ActionDispatch
       include Resources
 ~~~
 
-查看Mapping 的祖先链
+我们先查看Mapping 的祖先链
 
 ~~~rb
 Mapping.ancestors:
@@ -208,7 +283,7 @@ Rails.application.routes.router.routes == Rails.application.routes.routes
 ## Routes的匹配
 
 1. route有优先级，就是Route中的precedence字段。
-2. 
+2.
 
 在上节中提到request经过一层层的middleware最后会走到router的call方法中。
 
